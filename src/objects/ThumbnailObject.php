@@ -198,8 +198,10 @@ class ThumbnailObject
         imagedestroy($imageTemporary);
     }
     
-    public function uploadImage($filename) {
+    public function uploadImage($filename) 
+    {
         $this->setNewMeasures($this->image_max_width);
+        
         if ($this->originalWidth > $this->image_max_width) {
             $this->createThumbnail($this->newWidth, $this->newHeight, $_SERVER['DOCUMENT_ROOT'] . $filename);
             
