@@ -2,6 +2,8 @@
 
 namespace Plinct\Web\Object;
 
+use Plinct\Tool\Thumbnail;
+
 class ImageObject {
     
     public function __invoke($value) 
@@ -9,7 +11,7 @@ class ImageObject {
         $originalSrc = [ "data-source" => $value['src'], "data-caption" => $value['caption'] ?? null, "alt" => $value['alt'] ?? $value['caption'] ?? "Image: ".basename($value['src']) ];        
         $attributes = isset($value['attributes']) ? array_merge($originalSrc, $value['attributes']) : $originalSrc;        
         if(isset($value['width']) && $value['width'] !== '0') {            
-            $srcAttributes = (new ThumbnailObject($value['src']))->getThumbnailAsAttributesImg($value);            
+            $srcAttributes = (new Thumbnail($value['src']))->getThumbnailAsAttributesImg($value);            
         } else {
             $srcAttributes = [ "src" => $value['src'] ];
         }        

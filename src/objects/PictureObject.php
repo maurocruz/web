@@ -2,6 +2,8 @@
 
 namespace Plinct\Web\Object;
 
+use Plinct\Tool\Thumbnail;
+
 class PictureObject 
 {
     private $content = [];
@@ -29,10 +31,10 @@ class PictureObject
         foreach ($sources as $key => $valueSource) {
             // set srcset
             if (isset($valueSource['height']) && is_null($valueSource['height'])) {
-                $srcset = (new ThumbnailObject($value['src']))->getThumbnail($valueSource['width']);
+                $srcset = (new Thumbnail($value['src']))->getThumbnail($valueSource['width']);
                 
             } elseif (isset($valueSource['height'])) {
-                $srcset = (new ThumbnailObject($value['src']))->getThumbnail($valueSource['width'], $valueSource['height']);
+                $srcset = (new Thumbnail($value['src']))->getThumbnail($valueSource['width'], $valueSource['height']);
                 
             } elseif (isset($valueSource['srcset'])) {
                 $srcset = $valueSource['srcset'];
