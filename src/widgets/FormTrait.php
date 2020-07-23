@@ -2,14 +2,12 @@
 
 namespace Plinct\Web\Widget;
 
+use Plinct\Api\Type\PropertyValue;
+
 trait FormTrait 
 {    
     use HtmlElementTrait;
-    
-    static protected function queryString($value = null) {
-        return \fwc\helpers\HTools::queryString($value);
-    }
-   
+       
     static protected function div($title, $type, $content) {        
         $contenido[] = [ "tag" => "h4", "content" => _($title) ];
         foreach ($content as $value) {
@@ -82,10 +80,12 @@ trait FormTrait
         ]];        
     }
     
-    static protected function fieldsetWithTextarea($legend, $name, $value, $height = 150, $attributes = null, $attributes_textarea = null) {
+    static protected function fieldsetWithTextarea($legend, $name, $value, $height = 150, $attributes = null, $attributes_textarea = null) 
+    {
         // attributes fieldset
         $h = $height."px";
         $attrFieldset = [ "style" => "width: 100%; min-height: $h;" ];
+        
         $attributesFieldset = $attributes ? array_merge($attrFieldset, $attributes) : $attrFieldset;
         // attributes textarea
         $attrTextarea = [ "name" => $name, "id" => "textarea-$name", "style" => "min-height: calc($h - 50px);" ];
@@ -102,29 +102,34 @@ trait FormTrait
     {          
         if (isset($data['errorInfo'])) {
             return self::errorInfo($data['errorInfo'], $type);
+            
         } else {
             // form search
             $content[] = self::searchWithHttpRequest($type);                        
 
             $content[] = [ "tag" => "p", "content" => sprintf(_("Show %s items!"), $data['numberOfItems']) ];  
+            
             // columns
             $columns = [ 
                 [ "label" => "ID", "property" => "fwc_id", "attributes" => [ "style" => "width: 40px;"] ],
                 [ "label" => _("Name"), "property" => "name" ]
             ];
+            
             if ($row_column) {
                 foreach ($row_column as $keyCR => $valueCR) {                
                     $columns[] = [ "label" => $valueCR, "property" => $keyCR ];
                     $valueAddRows[] = $keyCR;
                 }
             }
+            
             // rows
             if ($data['numberOfItems'] == 0) {
                 $rows = [];
+                
             } else {
                 foreach ($data['itemListElement'] as $key => $valueItems) {
                     $item = $valueItems['item'];
-                    $ID = \fwc\Thing\PropertyValueGet::getValue($item['identifier'],"fwc_id");                
+                    $ID = PropertyValue::extractValue($item['identifier'],"fwc_id");                
                     $name = '<a href="/admin/'.$type.'/edit/'.$ID.'">'.($item['name'] ?? $item['headline'] ?? "[ND]").'</a>';
                     $rows[] = [ $ID, $name ];
                     if (isset($valueAddRows)) {
@@ -134,9 +139,11 @@ trait FormTrait
                         }
                     }
                 }
-            }        
+            }      
+            
             $caption = $title ? $title : _("List of $type");
             $content[] = self::tableItemList($columns, $rows, _($caption));
+            
             return [ "tag" => "div", "content" => $content ];
         }
     }
