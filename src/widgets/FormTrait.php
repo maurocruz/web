@@ -99,7 +99,10 @@ trait FormTrait
     }
     
     protected function listAll($data, $type, string $title = null, array $row_column = null) 
-    {          
+    {       
+        $caption = $title ? $title : "List of $type";
+        $showText = sprintf(_("Show %s items!"), $data['numberOfItems']);
+        
         if (isset($data['errorInfo'])) {
             return self::errorInfo($data['errorInfo'], $type);
             
@@ -107,11 +110,12 @@ trait FormTrait
             // form search
             $content[] = self::searchWithHttpRequest($type);                        
 
-            $content[] = [ "tag" => "p", "content" => sprintf(_("Show %s items!"), $data['numberOfItems']) ];  
+            $content[] = [ "tag" => "h2", "content" => _($caption) ];  
+            $content[] = [ "tag" => "p", "content" => $showText ];
             
             // columns
             $columns = [ 
-                [ "label" => "ID", "property" => "fwc_id", "attributes" => [ "style" => "width: 40px;"] ],
+                [ "label" => "ID", "property" => "id", "attributes" => [ "style" => "width: 40px;"] ],
                 [ "label" => _("Name"), "property" => "name" ]
             ];
             
@@ -129,10 +133,14 @@ trait FormTrait
             } else {
                 foreach ($data['itemListElement'] as $key => $valueItems) {
                     $item = $valueItems['item'];
-                    $ID = PropertyValue::extractValue($item['identifier'],"fwc_id");                
+                    
+                    $ID = PropertyValue::extractValue($item['identifier'],"id");
+                    
                     $name = '<a href="/admin/'.$type.'/edit/'.$ID.'">'.($item['name'] ?? $item['headline'] ?? "[ND]").'</a>';
+                    
                     $rows[] = [ $ID, $name ];
-                    if (isset($valueAddRows)) {
+                    
+                    if (isset($valueAddRows)) {                        
                         foreach ($valueAddRows as $valueR) {
                             $array = is_array($item[$valueR]) ? $item[$valueR]['name'] : $item[$valueR];
                             array_push($rows[$key],$array);
@@ -141,34 +149,40 @@ trait FormTrait
                 }
             }      
             
-            $caption = $title ? $title : _("List of $type");
             $content[] = self::tableItemList($columns, $rows, _($caption));
             
             return [ "tag" => "div", "content" => $content ];
         }
     }
     
-    static protected function tableItemList(array $columns, array $rows, $caption = null) {         
+    static protected function tableItemList(array $columns, array $rows, $caption = null) 
+    {         
+        $ordering = filter_input(INPUT_GET, 'ordering');
+        $orderingQuery = !$ordering || $ordering === "desc" ? "asc" : "desc";
+        
         foreach ($columns as $valueColumns) {
-            $th[] = [ "tag" => "th", "attributes" => $valueColumns['attributes'] ?? null, "content" => '<a href="?order='.$valueColumns['property'].'">'.$valueColumns['label'].'</a>' ];
+            $th[] = [ "tag" => "th", "attributes" => $valueColumns['attributes'] ?? null, "content" => '<a href="?orderBy='.$valueColumns['property'].'&ordering='.$orderingQuery.'">'._($valueColumns['label']).'</a>' ];
         }
         
         $td = null;
         if (count($rows) == 0) { // NO ITENS FOUNDED
             $list[] = [ "tag" => "tr", "content" => [
                 [ "tag" => "td", "attributes" => [ "colspan" => "5", "style" => "text-align: center; font-weight: bold; font-size: 120%;" ], "content" => _("No items founded!") ]
-            ]];            
+            ]];
+            
         } else { 
             foreach ($rows as $valueRows) {                
                 foreach ($valueRows as $valueItens ) {
                     $td[] = [ "tag" => "td", "content" => $valueItens['rowText'] ?? $valueItens ];
                 }
+                
                 $list[] = [ "tag" => "tr", "content" => $td ];
+                
                 unset($td);
             }
         }
+        
         return [ "tag" => "table", "attributes" => [ "class" => "table" ], "content" => [
-            [ "tag" => "caption", "content" => $caption ],
             [ "tag" => "thead", "content" => [
                 [ "tag" => "tr", "content" => $th ]
             ]],
@@ -212,7 +226,8 @@ trait FormTrait
         return [ "tag" => "input", "attributes" => $attr2 ];
     }
     
-    protected static function searchWithHttpRequest($type) {
+    protected static function searchWithHttpRequest($type) 
+    {
         return [ "tag" => "form", "attributes" => [ "name" => "formSearch", "class" => "searchForm", "action" => "", "method" => "get" ], "content" => [
             [ "tag" => "fieldset", "content" => [
                 [ "tag" => "input", "attributes" => [ "id" => "searchByName", "data-type" => $type, "name" => "q", "type" => "text", "value" => filter_input(INPUT_GET, 'search'), "autocomplete" => "off" ]],
