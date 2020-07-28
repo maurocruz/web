@@ -8,7 +8,7 @@ trait FormTrait
 {    
     use HtmlElementTrait;
        
-    static protected function div($title, $type, $content) {        
+    protected static function div($title, $type, $content) {        
         $contenido[] = [ "tag" => "h4", "content" => _($title) ];
         foreach ($content as $value) {
             $contenido[] = $value;
@@ -16,7 +16,7 @@ trait FormTrait
         return [ "tag" => "div", "attributes" => [ "id" => "$type-form" ], "content" => $contenido ];
     }
     
-    static protected function divBox($title, $type, $content) {        
+    protected static function divBox($title, $type, $content) {        
         $contenido[] = [ "tag" => "h4", "content" => $title ];
         foreach ($content as $value) {
             $contenido[] = $value;
@@ -24,16 +24,16 @@ trait FormTrait
         return [ "tag" => "div", "attributes" => [ "id" => "$type-form", "class" => "box" ], "content" => $contenido ];
     } 
     
-    static protected function divBoxExpanding($title, $type, $content) {
+    protected static function divBoxExpanding($title, $type, $content) {
         $id = "$type-form-". mt_rand(111,999);
-        $contenido[] = [ "tag" => "h4", "content" => $title, "attributes" => [ "class" => "button-dropdown button-dropdown-contracted" ] ];
+        $contenido[] = [ "tag" => "h4", "content" => $title, "attributes" => [ "class" => "button-dropdown button-dropdown-contracted", "onclick" => "expandBox(this,'$id');" ] ];
         foreach ($content as $value) {            
             $contenido[] = $value;
         }
         return [ "tag" => "div", "attributes" => [ "id" => $id, "class" => "box box-expanding" ], "content" => $contenido ];
     }
     
-    static protected function form(string $action, array $content, $attributes = null ) 
+    protected static function form(string $action, array $content, $attributes = null ) 
     {
         $class = is_string($attributes) ? $attributes : "formPadrao";
         $attr = [ "class" => $class, "action" => $action, "method" => "post" ];
@@ -41,17 +41,17 @@ trait FormTrait
         return [ "tag" => "form", "attributes" => $attrfinal, "content" => $content ];
     }
     
-    static protected function input($name, $type, $value, $attributes = null) {
+    protected static function input($name, $type, $value, $attributes = null) {
         $attr = [ "name" => $name, "type" => $type, "value" => $value ];
         $attr2 = $attributes ? array_merge($attr, $attributes) : $attr;
         return [ "tag" => "input", "attributes" => $attr2 ];
     }
     
-    static protected function noContent() {
+    protected static function noContent() {
         return [ "tag" => "p", "content" => _("No content") ];
     }
     
-    static protected function select(string $name, $valueChecked, array $value_label, $attributes_select = null) {
+    protected static function select(string $name, $valueChecked, array $value_label, $attributes_select = null) {
         // attributes
         $selectAttr = [ "name" => $name ];
         $attributes = $attributes_select ? array_merge($selectAttr, $attributes_select) : $selectAttr;
@@ -64,7 +64,7 @@ trait FormTrait
         return [ "tag" => "select", "attributes" => $attributes, "content" => $options ];
     }
     
-    static protected function fieldsetWithInput($legend, $name, $value, $attributes = null, $type = "text", $inputAttributes = null) {
+    protected static function fieldsetWithInput($legend, $name, $value, $attributes = null, $type = "text", $inputAttributes = null) {
         $attr = [ "name" => $name, "type" => $type, "value" => $value ];
         $attributesInput = $inputAttributes ? array_merge($attr, $inputAttributes) : $attr;
         return [ "tag" => "fieldset", "attributes" => $attributes, "content" => [ 
@@ -73,14 +73,14 @@ trait FormTrait
         ]];
     }
     
-    static protected function fieldsetWithSelect(string $legend, string $name, $valueChecked, array $valueLabelListOptions, array $attributes = null, array $attributes_select = null ) {
+    protected static function fieldsetWithSelect(string $legend, string $name, $valueChecked, array $valueLabelListOptions, array $attributes = null, array $attributes_select = null ) {
         return [ "tag" => "fieldset", "attributes" => $attributes, "content" => [ 
             [ "tag" => "legend", "content" => $legend ],
             self::select($name, $valueChecked, $valueLabelListOptions, $attributes_select)
         ]];        
     }
     
-    static protected function fieldsetWithTextarea($legend, $name, $value, $height = 150, $attributes = null, $attributes_textarea = null) 
+    protected static function fieldsetWithTextarea($legend, $name, $value, $height = 150, $attributes = null, $attributes_textarea = null) 
     {
         // attributes fieldset
         $h = $height."px";
@@ -98,7 +98,7 @@ trait FormTrait
         ]];
     }
     
-    protected function listAll($data, $type, string $title = null, array $row_column = null) 
+    protected static function listAll($data, $type, string $title = null, array $row_column = null) 
     {       
         $caption = $title ? $title : "List of $type";
         $showText = sprintf(_("Show %s items!"), $data['numberOfItems']);
@@ -155,7 +155,7 @@ trait FormTrait
         }
     }
     
-    static protected function tableItemList(array $columns, array $rows, $caption = null) 
+    protected static function tableItemList(array $columns, array $rows, $caption = null) 
     {         
         $ordering = filter_input(INPUT_GET, 'ordering');
         $orderingQuery = !$ordering || $ordering === "desc" ? "asc" : "desc";
@@ -190,7 +190,7 @@ trait FormTrait
         ]];
     }
         
-    static protected function errorInfo($data, $type) { 
+    protected static function errorInfo($data, $type) { 
         if ($data[0] == '42S02') {
             return [ "tag" => "div", "content" => [
                 [ "tag" => "p", "content" => _($data[2]) ],
