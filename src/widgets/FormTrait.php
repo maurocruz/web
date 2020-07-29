@@ -47,7 +47,7 @@ trait FormTrait
         return [ "tag" => "input", "attributes" => $attr2 ];
     }
     
-    protected static function noContent() {
+    public static function noContent() {
         return [ "tag" => "p", "content" => _("No content") ];
     }
     
