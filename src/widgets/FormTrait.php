@@ -231,7 +231,7 @@ trait FormTrait
         return [ "tag" => "form", "attributes" => [ "name" => "formSearch", "class" => "searchForm", "action" => "", "method" => "get" ], "content" => [
             [ "tag" => "fieldset", "content" => [
                 [ "tag" => "input", "attributes" => [ "id" => "searchByName", "data-type" => $type, "name" => "q", "type" => "text", "value" => filter_input(INPUT_GET, 'search'), "autocomplete" => "off" ]],
-                [ "tag" => "input", "attributes" => [ "type" => "image", "src" => "/fwcSrc/images/lupa_32x32.png", "onclick" => "submit()", "alt" => _("Search") ] ]
+                [ "tag" => "img", "attributes" => [ "src" => "/fwcSrc/images/lupa_32x32.png", "onclick" => "submit()", "alt" => _("Search"), "title" => _("Search"), "style" => "width: 19px; display: inline; line-height: 0; vertical-align: bottom; margin-left: 2px;" ] ]
             ] ] 
         ]];
     }
