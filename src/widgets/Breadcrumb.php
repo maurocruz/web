@@ -20,27 +20,37 @@ class Breadcrumb
     public function enableBreadcrumb($breadcrumb) 
     {
         if (isset($breadcrumb['numberOfItems']) && $breadcrumb['numberOfItems'] > 0 ? $breadcrumb['numberOfItems'] : $breadcrumb) {
+
+            // json
             if (is_string($breadcrumb)) {
                 $arrayBreadcrumb = json_decode($breadcrumb, true);        
                 $this->response = $this->decodeArrayBreadcrumb($arrayBreadcrumb);
                 
-            } elseif (is_array($breadcrumb)) {
+            } 
+            
+            // array
+            elseif (is_array($breadcrumb)) {
                 if (array_search("BreadcrumbList", $breadcrumb) == "@type") {
                     $this->decodeArrayBreadcrumb($breadcrumb);
                     
                 } else {
                     $this->insertBreadcrumbBySimpleArray($breadcrumb);
                 }            
-            } else {
+            } 
+            
+            else {
                 $this->addBreadcrumbFromURL($uri);
             }
+            
         } else {
             $this->response = $this->addBreadcrumbFromURL();
         }
+        
         return $this->response;
     }
 
-    public function addBreadcrumbFromURL($uri = null) {        
+    public function addBreadcrumbFromURL($uri = null) 
+    {        
         $paramsArray = explode("/", urldecode($uri ?? $_SERVER['REQUEST_URI']));         
         $i=0;
         $lastHref = "/";
@@ -77,7 +87,8 @@ class Breadcrumb
         } else {
             foreach ($arrayBreadcrumb as $key => $value) {
                 $this->response['content'][] = [ "tag" => "li", "content" => " > " ]; 
-                $this->response['content'][] = self::addli($value["item"]['name'], $value['position'], $value['item']['id'], ($key+1 == count($arrayBreadcrumb) ? true : false) );
+                $href = substr($value['item']['id'], -1) == '/' ? substr($value['item']['id'], 0, -1) : $value['item']['id'];
+                $this->response['content'][] = self::addli($value["item"]['name'], $value['position'], $href, ($key+1 == count($arrayBreadcrumb) ? true : false) );
             }
         }   
         
@@ -96,10 +107,14 @@ class Breadcrumb
         return $this->response;
     }
     
-    private static function addli($name, $position, $href, $thispage = false) {    
+    private static function addli($name, $position, $href, $thispage = false) 
+    {    
         $attrSchemaLi = [ "itemprop" => "itemListElement", "itemscope", "itemtype" => "http://schema.org/ListItem" ];
+        
         $attrSchemaA = [ "itemtype" => "http://schema.org/Thing", "itemprop" => "item", "href" => str_replace(" ", "+", $href) ];        
-        $attrA = $thispage ? array_merge( ["class" => "breadcrumb-link-thispage"], $attrSchemaA) : array_merge(["class" => "breadcrumb-link"], $attrSchemaA);        
+        
+        $attrA = $thispage ? array_merge( ["class" => "breadcrumb-link-thispage"], $attrSchemaA) : array_merge(["class" => "breadcrumb-link"], $attrSchemaA);
+        
         return [
             "tag" => "li", 
             "attributes" => $attrSchemaLi, 
