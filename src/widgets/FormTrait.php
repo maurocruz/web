@@ -8,74 +8,98 @@ trait FormTrait
 {    
     use HtmlElementTrait;
        
-    protected static function div($title, $type, $content) {        
+    protected static function div($title, $type, $content) 
+    {        
         $contenido[] = [ "tag" => "h4", "content" => _($title) ];
+        
         foreach ($content as $value) {
             $contenido[] = $value;
         }
+        
         return [ "tag" => "div", "attributes" => [ "id" => "$type-form" ], "content" => $contenido ];
     }
     
-    protected static function divBox($title, $type, $content) {        
+    protected static function divBox($title, $type, $content) 
+    {        
         $contenido[] = [ "tag" => "h4", "content" => $title ];
+        
         foreach ($content as $value) {
             $contenido[] = $value;
         }
+        
         return [ "tag" => "div", "attributes" => [ "id" => "$type-form", "class" => "box" ], "content" => $contenido ];
     } 
     
-    protected static function divBoxExpanding($title, $type, $content) {
+    protected static function divBoxExpanding($title, $type, $content)
+    {
         $id = "$type-form-". mt_rand(111,999);
+        
         $contenido[] = [ "tag" => "h4", "content" => $title, "attributes" => [ "class" => "button-dropdown button-dropdown-contracted", "onclick" => "expandBox(this,'$id');" ] ];
+        
         foreach ($content as $value) {            
             $contenido[] = $value;
         }
+        
         return [ "tag" => "div", "attributes" => [ "id" => $id, "class" => "box box-expanding" ], "content" => $contenido ];
     }
     
     protected static function form(string $action, array $content, $attributes = null ) 
     {
         $class = is_string($attributes) ? $attributes : "formPadrao";
+        
         $attr = [ "class" => $class, "action" => $action, "method" => "post" ];
+        
         $attrfinal = is_array($attributes) ? array_merge($attr, $attributes) : $attr;
+        
         return [ "tag" => "form", "attributes" => $attrfinal, "content" => $content ];
     }
     
-    protected static function input($name, $type, $value, $attributes = null) {
+    protected static function input($name, $type, $value, $attributes = null)
+    {
         $attr = [ "name" => $name, "type" => $type, "value" => $value ];
+        
         $attr2 = $attributes ? array_merge($attr, $attributes) : $attr;
+        
         return [ "tag" => "input", "attributes" => $attr2 ];
     }
     
-    public static function noContent() {
+    public static function noContent()
+    {
         return [ "tag" => "p", "content" => _("No content") ];
     }
     
-    protected static function select(string $name, $valueChecked, array $value_label, $attributes_select = null) {
+    protected static function select(string $name, $valueChecked, array $value_label, $attributes_select = null)
+    {
         // attributes
         $selectAttr = [ "name" => $name ];
         $attributes = $attributes_select ? array_merge($selectAttr, $attributes_select) : $selectAttr;
+        
         // options      
         $options[] = $valueChecked ? [ "tag" => "option", "attributes" => [ "value" => $valueChecked ], "content" => _($valueChecked) ] : null;
-        $options[] = [ "tag" => "option", "attributes" => [ "value" => "" ], "content" => _("Choose...") ];        
+        $options[] = [ "tag" => "option", "attributes" => [ "value" => "" ], "content" => _("Choose...") ];  
+        
         foreach ($value_label as $key => $value) {
             $options[] = [ "tag" => "option", "attributes" => [ "value" => $key ], "content" => _($value) ];
         }
+        
         return [ "tag" => "select", "attributes" => $attributes, "content" => $options ];
     }
     
-    protected static function fieldsetWithInput($legend, $name, $value, $attributes = null, $type = "text", $inputAttributes = null) {
+    protected static function fieldsetWithInput($legend, $name, $value, $attributes = null, $type = "text", $inputAttributes = null) 
+    {
         $attr = [ "name" => $name, "type" => $type, "value" => $value ];
         $attributesInput = $inputAttributes ? array_merge($attr, $inputAttributes) : $attr;
+        
         return [ "tag" => "fieldset", "attributes" => $attributes, "content" => [ 
-            [ "tag" => "legend", "content" => $legend ],
+            [ "tag" => "legend", "content" => _($legend) ],
             [ "tag" => "input", "attributes" => $attributesInput ]
         ]];
     }
     
-    protected static function fieldsetWithSelect(string $legend, string $name, $valueChecked, array $valueLabelListOptions, array $attributes = null, array $attributes_select = null ) {
+    protected static function fieldsetWithSelect(string $legend, string $name, $valueChecked, array $valueLabelListOptions, array $attributes = null, array $attributes_select = null )
+    {
         return [ "tag" => "fieldset", "attributes" => $attributes, "content" => [ 
-            [ "tag" => "legend", "content" => $legend ],
+            [ "tag" => "legend", "content" => _($legend) ],
             self::select($name, $valueChecked, $valueLabelListOptions, $attributes_select)
         ]];        
     }
@@ -92,7 +116,7 @@ trait FormTrait
         $attr = $attributes_textarea ? array_merge($attrTextarea, $attributes_textarea) : $attrTextarea;
         
         return [ "tag" => "fieldset", "attributes" => $attributesFieldset, "content" => [ 
-            [ "tag" => "legend", "content" => $legend ],
+            [ "tag" => "legend", "content" => _($legend) ],
             [ "tag" => "textarea", "attributes" => $attr, "content" => $value ],
             [ "tag" => "a", "attributes" => [ "href" => "javascript:void();", "onclick" => "expandTextarea('textarea-$name',$height);", "style" => "width: 96%; display: block; font-size: 0.85em;" ], "content" => sprintf(_("Expandir textarea em %s"), $h) ]   
         ]];
@@ -202,8 +226,9 @@ trait FormTrait
     }
     
     
-    protected static function radio(string $legend, string $name, $value, array $labels) {
-        $content[] = [ "tag" => "legend", "content" => $legend ];        
+    protected static function radio(string $legend, string $name, $value, array $labels) 
+    {
+        $content[] = [ "tag" => "legend", "content" => _($legend) ];        
         foreach ($labels as $valueLabel) {
             $checked = $value == $valueLabel ? "checked" : null;           
             $content[] = [ "tag" => "label", "content" => [
@@ -214,13 +239,15 @@ trait FormTrait
         return [ "tag" => "fieldset", "content" => $content ];
     }
     
-    protected static function submitButtonSend($attributes = null) {
+    protected static function submitButtonSend($attributes = null)
+    {
         $attr = [ "name" => "submit", "src" => "/fwcSrc/images/ok_64x64.png", "style" => "max-width: 40px; vertical-align: bottom; margin: 6px;", "type" => "image", "alt" => "Enviar", "title" => _("Submit") ];
         $attr2 = $attributes ? array_merge($attr, $attributes) : $attr;        
         return [ "tag" => "input", "attributes" => $attr2 ];
     }
     
-    protected static function submitButtonDelete($formaction, $attributes = null) {
+    protected static function submitButtonDelete($formaction, $attributes = null)
+    {
         $attr = [ "name" => "submit", "src" => "/fwcSrc/images/delete.png", "formaction" => $formaction, "style" => "max-width: 40px; vertical-align: bottom; margin: 6px;", "type" => "image", "alt" => _("Delete data"), "title" => _("Delete data"), "onclick" => "return confirm('".("Are you sure you want to delete this item?")."');" ];        
         $attr2 = $attributes ? array_merge($attr, $attributes) : $attr;        
         return [ "tag" => "input", "attributes" => $attr2 ];
@@ -236,7 +263,8 @@ trait FormTrait
         ]];
     }
     
-    public static function search($action, $name,  $value = null, $method = "get") {
+    public static function search($action, $name,  $value = null, $method = "get")
+    {
         return [ "tag" => "form", "attributes" => [ "name" => "formSearch", "class" => "form", "action" => $action, "method" => $method ], "content" => [
             [ "tag" => "fieldset", "content" => [
                 [ "tag" => "legend", "content" => _("Search") ],
