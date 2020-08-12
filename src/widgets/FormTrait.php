@@ -74,8 +74,13 @@ trait FormTrait
         $selectAttr = [ "name" => $name ];
         $attributes = $attributes_select ? array_merge($selectAttr, $attributes_select) : $selectAttr;
         
-        // options      
-        $options[] = $valueChecked ? [ "tag" => "option", "attributes" => [ "value" => $valueChecked ], "content" => _($valueChecked) ] : null;
+        // options
+        if (is_array($valueChecked)) {  
+            $options[] = [ "tag" => "option", "attributes" => [ "value" => key($valueChecked) ], "content" => _(current($valueChecked)) ];
+        } else {
+            $options[] = $valueChecked ? [ "tag" => "option", "attributes" => [ "value" => $valueChecked ], "content" => _($valueChecked) ] : null;
+        }
+        
         $options[] = [ "tag" => "option", "attributes" => [ "value" => "" ], "content" => _("Choose...") ];  
         
         foreach ($value_label as $key => $value) {
@@ -125,7 +130,7 @@ trait FormTrait
     protected static function listAll($data, $type, string $title = null, array $row_column = null) 
     {       
         $caption = $title ? $title : "List of $type";
-        $showText = sprintf(_("Show %s items!"), $data['numberOfItems']);
+        $showText = sprintf(_("Show %s items!"), $data['numberOfItems'] ?? 0);
         
         if (isset($data['errorInfo'])) {
             return self::errorInfo($data['errorInfo'], $type);
@@ -151,7 +156,7 @@ trait FormTrait
             }
             
             // rows
-            if ($data['numberOfItems'] == 0) {
+            if (!isset($data['numberOfItems']) || $data['numberOfItems'] == 0) {
                 $rows = [];
                 
             } else {
@@ -257,7 +262,7 @@ trait FormTrait
     {
         return [ "tag" => "form", "attributes" => [ "name" => "formSearch", "class" => "searchForm", "action" => "", "method" => "get" ], "content" => [
             [ "tag" => "fieldset", "content" => [
-                [ "tag" => "input", "attributes" => [ "id" => "searchByName", "data-type" => $type, "name" => "q", "type" => "text", "value" => filter_input(INPUT_GET, 'search'), "autocomplete" => "off" ]],
+                [ "tag" => "input", "attributes" => [ "id" => "searchByName", "data-type" => $type, "name" => "q", "type" => "text", "value" => filter_input(INPUT_GET, 'search'), "autocomplete" => "on" ]],
                 [ "tag" => "img", "attributes" => [ "src" => "/fwcSrc/images/lupa_32x32.png", "onclick" => "submit()", "alt" => _("Search"), "title" => _("Search"), "style" => "width: 19px; display: inline; line-height: 0; vertical-align: bottom; margin-left: 2px;" ] ]
             ] ] 
         ]];
