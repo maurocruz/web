@@ -5,22 +5,45 @@ namespace Plinct\Web\Object;
 use Plinct\Tool\Thumbnail;
 
 class PictureObject 
-{
-    private $content = [];
+{    
+    private $src;
     
     public function __invoke($value) 
     {
+        unset($value['object']);
+        
+        $this->src = $value['src'];
+        
+        $inFigure = null;
+        
         // sources
         if(isset($value['sourceMeasures']) || isset($value['sources'])) {
-            $this->sources($value);
+            $sources[] = $this->sources($value);            
         }        
         // img
-        $this->content[] = [ "tag" => "img", "attributes" => [ "src" => $value['src'], "alt" => "image" ] ]; 
+        $img = [ "tag" => "img", "attributes" => [ "src" => $this->src, "alt" => "image" ] ];
+                
+        foreach ($value as $key => $valuePicture) {
+            if($key !== 'src' && $key !== "sources" && $key !== "sourceMeasures" && $key !== "attributes") {
+                $inFigure = true;
+            }            
+        }
         
-        // content
-        $this->content[] = $value['content'] ?? null;  
+        $picture = [ "tag" => "picture", "content" => [ $sources, $img ] ];
         
-        return [ "tag" => "picture", "attributes" => $value['attributes'] ?? null, "content" => $this->content ];
+        if ($inFigure) {
+            // content
+            $content = $value['content'] ?? null; 
+            
+            $picHref = $value['href'] ? [ "tag" => "a", "attributes" => [ "href" => $value['href'] ], "content" => $picture ] : $picture;
+            
+            return [ "tag" => "figure", "attributes" => $value['attributes'] ?? null, "content" => [ $picHref, $content ] ];
+            
+        } else {
+            $picture['attributes'] = $value['attributes'] ?? null;
+            return $picture;
+        }
+        
     }
     
     //
@@ -50,7 +73,17 @@ class PictureObject
                 $media = "(max-width: " . $valueSource['width'] . "px)";
             }
             
-            $this->content[] = [ "tag" => "source", "attributes" => [ "media" => $media, "srcset" => $srcset ] ];            
+            
+            $srcWidth[] = $valueSource['width'];
+            $srcHeight[] = $valueSource['height'];
+            
+            $source[] = [ "tag" => "source", "attributes" => [ "media" => $media, "srcset" => $srcset ] ];            
         }
+        
+        $this-> src = $srcset;
+        
+        return $source;
     }
+    
+    
 }
