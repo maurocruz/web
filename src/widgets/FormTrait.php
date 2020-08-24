@@ -136,9 +136,6 @@ trait FormTrait
             return self::errorInfo($data['errorInfo'], $type);
             
         } else {
-            // form search
-            $content[] = self::searchWithHttpRequest($type);                        
-
             $content[] = [ "tag" => "h2", "content" => _($caption) ];  
             $content[] = [ "tag" => "p", "content" => $showText ];
             
@@ -257,17 +254,7 @@ trait FormTrait
         $attr2 = $attributes ? array_merge($attr, $attributes) : $attr;        
         return [ "tag" => "input", "attributes" => $attr2 ];
     }
-    
-    protected static function searchWithHttpRequest($type) 
-    {
-        return [ "tag" => "form", "attributes" => [ "name" => "formSearch", "class" => "searchForm", "action" => "", "method" => "get" ], "content" => [
-            [ "tag" => "fieldset", "content" => [
-                [ "tag" => "input", "attributes" => [ "id" => "searchByName", "data-type" => $type, "name" => "q", "type" => "text", "value" => filter_input(INPUT_GET, 'search'), "autocomplete" => "on" ]],
-                [ "tag" => "img", "attributes" => [ "src" => "/fwcSrc/images/lupa_32x32.png", "onclick" => "submit()", "alt" => _("Search"), "title" => _("Search"), "style" => "width: 19px; display: inline; line-height: 0; vertical-align: bottom; margin-left: 2px;" ] ]
-            ] ] 
-        ]];
-    }
-    
+
     public static function search($action, $name,  $value = null, $method = "get")
     {
         return [ "tag" => "form", "attributes" => [ "name" => "formSearch", "class" => "form", "action" => $action, "method" => $method ], "content" => [
