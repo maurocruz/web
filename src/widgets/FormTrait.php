@@ -10,37 +10,37 @@ trait FormTrait
        
     protected static function div($title, $type, $content) 
     {        
-        $contenido[] = [ "tag" => "h4", "content" => _($title) ];
+        $contentOut[] = [ "tag" => "h4", "content" => _($title) ];
         
         foreach ($content as $value) {
-            $contenido[] = $value;
+            $contentOut[] = $value;
         }
         
-        return [ "tag" => "div", "attributes" => [ "id" => "$type-form" ], "content" => $contenido ];
+        return [ "tag" => "div", "attributes" => [ "id" => "$type-form" ], "content" => $contentOut ];
     }
     
     protected static function divBox($title, $type, $content) 
     {        
-        $contenido[] = [ "tag" => "h4", "content" => $title ];
+        $contentOut[] = [ "tag" => "h4", "content" => $title ];
         
         foreach ($content as $value) {
-            $contenido[] = $value;
+            $contentOut[] = $value;
         }
         
-        return [ "tag" => "div", "attributes" => [ "id" => "$type-form", "class" => "box" ], "content" => $contenido ];
+        return [ "tag" => "div", "attributes" => [ "id" => "$type-form", "class" => "box" ], "content" => $contentOut ];
     } 
     
     protected static function divBoxExpanding($title, $type, $content)
     {
         $id = "$type-form-". mt_rand(111,999);
         
-        $contenido[] = [ "tag" => "h4", "content" => $title, "attributes" => [ "class" => "button-dropdown button-dropdown-contracted", "onclick" => "expandBox(this,'$id');" ] ];
+        $contentOut[] = [ "tag" => "h4", "content" => strip_tags(str_replace("<br>"," ",$title)), "attributes" => [ "class" => "button-dropdown button-dropdown-contracted", "onclick" => "expandBox(this,'$id');" ] ];
         
         foreach ($content as $value) {            
-            $contenido[] = $value;
+            $contentOut[] = $value;
         }
         
-        return [ "tag" => "div", "attributes" => [ "id" => $id, "class" => "box box-expanding" ], "content" => $contenido ];
+        return [ "tag" => "div", "attributes" => [ "id" => $id, "class" => "box box-expanding" ], "content" => $contentOut ];
     }
     
     protected static function form(string $action, array $content, $attributes = null ) 
