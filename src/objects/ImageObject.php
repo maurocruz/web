@@ -22,7 +22,7 @@ class ImageObject {
         
         $imgTag = [ "tag" => "img", "attributes" => array_merge($srcAttributes, $attributes) ];        
         
-        if (isset($value['href'])) {        
+        if (isset($value['href']) && $value['href'] !== '') {
             $hrefAttr = isset($value['hrefAttributes']) ? array_merge([ "href" => $value['href'] ], $value['hrefAttributes']) : [ "href" => $value['href'] ];
             
             $imgTag = [ "tag" => "a", "attributes" => $hrefAttr, "content" => $imgTag ];
