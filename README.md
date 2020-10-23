@@ -1,7 +1,7 @@
 # web
 Web objects and widgets for Plinct app
 
-write on array or json and outuput in HTML
+write on array or json and output in HTML
 
 >## basic element
 ```
@@ -12,10 +12,33 @@ write on array or json and outuput in HTML
   "href" => "path/to/" 
 ]
 ```
-
->## picture
-> is a object
+>## Objects
+>There are three types: image, figure, picture
 ```
+[
+  "object" => "image",
+  "attributes => [ 
+    "class" => "image-styles",
+    "id" => "image-id",
+    "name" => "value" 
+  ],
+  "src" => "/path/to/image.ext",
+  "href" => "/path/to/link",
+  "width" = number,
+  "height = number
+  "attributesHref = [array]
+],
+[
+  "object" => "figure",
+  "attributes" => [ "name" => "value" ],
+  "src" => "/path/to/image.ext",
+  "href" => "/path/to/link",
+  "width" = number,
+  "height = number,
+  "caption" = "string",
+  "attributesImg = [array],
+  "attributesHref = [array]
+],
 [
   "object" => "picture",
   "attributes" => [
@@ -32,4 +55,8 @@ write on array or json and outuput in HTML
   "content" => another object or element
 ]
 ```
-  
+And more
+
+* Breadcrumb function
+* Scroll up button
+* form widgets
