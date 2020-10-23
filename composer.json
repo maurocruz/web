@@ -8,11 +8,6 @@
             "email": "maurocruz@pirenopolis.tur.br"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Plinct\\Web\\": "src/"
-        }        
-    },
     "require": {    
         "php": "^7.2",
         "plinct/tool": "0.*"
