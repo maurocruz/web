@@ -37,7 +37,7 @@ class PictureObject
             // content
             $content = $value['content'] ?? null; 
             
-            $picHref = $value['href'] ? [ "tag" => "a", "attributes" => [ "href" => $value['href'] ], "content" => $picture ] : $picture;
+            $picHref = isset($value['href']) ? [ "tag" => "a", "attributes" => [ "href" => $value['href'] ], "content" => $picture ] : $picture;
             
             return [ "tag" => "figure", "attributes" => $value['attributes'] ?? null, "content" => [ $picHref, $content ] ];
             
