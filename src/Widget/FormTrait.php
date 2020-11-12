@@ -10,6 +10,17 @@ trait FormTrait
 {
     use HtmlElementTrait;
 
+    protected static function datalist(string $id, array $array): string
+    {
+        $content = null;
+
+        foreach ($array as $value) {
+            $content .= "<option value='$value'>";
+        }
+
+        return "<datalist id='$id'>$content</datalist>";
+    }
+
     protected static function div($title, $type, $content)
     {
         $contentOut[] = [ "tag" => "h4", "content" => _($title) ];
