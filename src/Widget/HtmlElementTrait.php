@@ -13,4 +13,9 @@ trait HtmlElementTrait
     {
         return self::simpleTag("p", _("No content"), [ "class" => "warning"]);
     }
+
+    protected static function arrowBack()
+    {
+        return [ "object" => "image", "src" => "/App/static/cms/images/arrowBack.svg", "attributes" => [ "style" => "height: 48px; margin: 15px;"], "href" => "javascript: history.back();" ];
+    }
 }
