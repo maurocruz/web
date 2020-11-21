@@ -32,7 +32,7 @@ function goTop() {
 EOT
         ];
         
-        $content[] = [ "tag" => "img", "attributes" => [ "id" => "button-scrollup", "src" => "https://pirenopolis.tur.br/fwcSrc/images/scroll-up.png", "onclick" => "goTop();", "title" => "Subir!", "style" => "display: none; position: fixed; bottom: 20px; right: 20px; line-height: 0; cursor: pointer; width: 40px;" ] ];
+        $content[] = [ "tag" => "img", "attributes" => [ "id" => "button-scrollup", "src" => "https://pirenopolis.tur.br/App/static/images/scroll-up.png", "onclick" => "goTop();", "title" => "Subir!", "style" => "display: none; position: fixed; bottom: 20px; right: 20px; line-height: 0; cursor: pointer; width: 40px;" ] ];
         
         return [ "tag" => "div", "attributes" => [ "class" => "scrollup" ], "content" => $content ];
     }
