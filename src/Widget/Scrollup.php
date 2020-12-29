@@ -2,14 +2,9 @@
 
 namespace Plinct\Web\Widget;
 
-/**
- * Scrollup
- *
- * @author Mauro Cruz <maurocruz@pirenopolis.tur.br>
- */
 class Scrollup 
 {
-    public function addButton()
+    public static function addButton(): array
     {
         $content[] = [ "tag" => "script", "content" => <<<EOT
 // MOSTRA O BOTÃO AO ROLAR A PÁGINA
