@@ -4,7 +4,7 @@ namespace Plinct\Web\Object;
 
 class GalleryObject 
 {
-    public function __invoke($array) 
+    public function __invoke($array): ?array
     {
         switch ($array['type'] ?? $array['gallery_type']) {
             case "grid":
@@ -20,7 +20,7 @@ class GalleryObject
                 
                 return [ "tag" => "div", "attributes" => $attributes, "content" => [
                     [ "tag" => "div", "attributes" => [ "data-gallery" => "carrousel", "id" => "gallery-carrousel" ], "content" => $content ],
-                    [ "tag" => "script", "attributes" => [ "src" => "https://pirenopolis.tur.br/fwcSrc/js/galleryCarrousel.js", "type" => "text/javascript"] ]
+                    [ "tag" => "script", "attributes" => [ "src" => "/App/static/js/galleryCarrousel.js", "type" => "text/javascript"] ]
                 ]];
 
             default:
@@ -28,26 +28,26 @@ class GalleryObject
         }
     }
     
-    private static function galleryGrid($figures)
+    private static function galleryGrid($figures): array
     {
         $contentFigures = null;
 
         foreach ($figures as $valueFigures) {
-            $contentFigures[] = [ "object" => "figure", "attributes" => [ "class" => "gallery-container--figure" ], "src" => $valueFigures['src'], "width" => 0.5 ];
+            $contentFigures[] = [ "object" => "figure", "attributes" => [ "class" => "gallery-container--figure" ], "src" => $valueFigures['contentUrl'], "width" => 0.5 ];
         }
 
         return [ "tag" => "div", "attributes" => [ "class" => "gallery-container" ], "content" => $contentFigures ] ;
     }
     
-    private static function carrousel($array)
+    private static function carrousel($array): array
     {
         $figures = null;
         $thumbnails = null;
 
         // content
         foreach ($array['content'] ?? $array['figures'] as $valueFigures) {
-            $figures[] = [ "object" => "figure", "attributes" => [ "class" => "gallery-container--figure" ], "src" => $valueFigures['src'], "width" => $valueFigures['width'] ?? 1, "height" => 0.75 ];
-            $thumbnails[] = [ "object" => "image", "attributes" => [ "class" => "gallery-thumbnails--image" ], "src" => $valueFigures['src'], "width" => $array['thumbnail']['width'] ?? 120, "height" => 0.75 ];
+            $figures[] = [ "object" => "figure", "attributes" => [ "class" => "gallery-container--figure" ], "src" => $valueFigures['contentUrl'], "width" => $valueFigures['width'] ?? 1, "height" => 0.75, "caption" => $valueFigures['caption'] ];
+            $thumbnails[] = [ "object" => "image", "attributes" => [ "class" => "gallery-thumbnails--image" ], "src" => $valueFigures['contentUrl'], "width" => $array['thumbnail']['width'] ?? 120, "height" => 0.75 ];
         }
                 
         
