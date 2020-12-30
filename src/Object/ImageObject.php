@@ -6,9 +6,12 @@ use Plinct\Tool\Thumbnail;
 
 class ImageObject {
     
-    public function __invoke($value) 
+    public function __invoke($value): array
     {
-        $originalSrc = [ "data-source" => $value['src'], "data-caption" => $value['caption'] ?? null, "alt" => $value['alt'] ?? $value['caption'] ?? "Image: ".basename($value['src']) ];
+        $caption = isset($value['caption']) ? strip_tags($value['caption']) : null;
+        $alt = $value['alt'] ?? $caption ?? "Image: ".basename($value['src']);
+
+        $originalSrc = [ "data-source" => $value['src'], "data-caption" => $caption ?? null, "alt" => $alt ];
         
         $attributes = isset($value['attributes']) ? array_merge($originalSrc, $value['attributes']) : $originalSrc;        
         
