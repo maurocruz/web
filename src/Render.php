@@ -4,12 +4,12 @@ namespace Plinct\Web;
 
 class Render
 {
-    public function convertObjectToString($object) 
+    public function convertObjectToString($object): string
     {
         return self::writeObject($object);
     }
     
-    private static function writeObject($object) 
+    private static function writeObject($object): string
     {
         // open tag
         $response = '<'.$object->getTagname();
@@ -51,7 +51,7 @@ class Render
         return $response;
     }
     
-    public static function arrayToString(array $array = null) 
+    public static function arrayToString(array $array = null): string
     {         
         $response = null;
         
@@ -75,7 +75,7 @@ class Render
         return $response ?? "[ empty! ]";
     }
     
-    private static function tag($value) 
+    private static function tag($value): string
     {    
             // open
             $response = "<".$value['tag'];
