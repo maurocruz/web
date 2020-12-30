@@ -4,7 +4,7 @@ namespace Plinct\Web\Object;
 
 class FigureObject {
     
-    public function __invoke($value)
+    public function __invoke($value): array
     {
         $attributes = $value['attributes'] ?? null;
         $href = isset($value['href']) && $value['href'] != '' ? $value['href'] : null ;
@@ -20,7 +20,6 @@ class FigureObject {
         }
         // caption
         if (array_key_exists('caption', $value) && $value['caption'] == true) {
-            //var_dump($value);
             $content[] = [ "tag" => "figcaption", "attributes" => $value['figcaptionAttributes'] ?? null, "content" => $value['caption'], "href" => $href ];
         }
         // content
