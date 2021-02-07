@@ -20,7 +20,7 @@ class GalleryObject
                 
                 return [ "tag" => "div", "attributes" => $attributes, "content" => [
                     [ "tag" => "div", "attributes" => [ "data-gallery" => "carrousel", "id" => "gallery-carrousel" ], "content" => $content ],
-                    [ "tag" => "script", "attributes" => [ "src" => "/App/static/js/galleryCarrousel.js", "type" => "text/javascript"] ]
+                    [ "tag" => "script", "attributes" => [ "src" => "//pirenopolis.tur.br/App/static/js/galleryCarrousel.js", "type" => "text/javascript"] ]
                 ]];
 
             default:
@@ -46,7 +46,7 @@ class GalleryObject
 
         // content
         foreach ($array['content'] ?? $array['figures'] as $valueFigures) {
-            $figures[] = [ "object" => "figure", "attributes" => [ "class" => "gallery-container--figure" ], "src" => $valueFigures['contentUrl'], "width" => $valueFigures['width'] ?? 1, "height" => 0.75, "caption" => $valueFigures['caption'] ];
+            $figures[] = [ "object" => "figure", "attributes" => [ "class" => "gallery-container--figure" ], "src" => $valueFigures['contentUrl'], "width" => $valueFigures['width'] ?? 1, "height" => 0.75, "caption" => $valueFigures['caption'] ?? null ];
             $thumbnails[] = [ "object" => "image", "attributes" => [ "class" => "gallery-thumbnails--image" ], "src" => $valueFigures['contentUrl'], "width" => $array['thumbnail']['width'] ?? 120, "height" => 0.75 ];
         }
                 
