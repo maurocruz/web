@@ -138,9 +138,11 @@ trait FormTrait
         return [ "tag" => "input", "attributes" => $attr2 ];
     }
 
-    public static function search($action, $name,  $value = null, $method = "get"): array
+    public static function search(string $action, string $name, string $value = null, string $method = "get", array $attributes = null): array
     {
-        return [ "tag" => "form", "attributes" => [ "name" => "formSearch", "class" => "form", "action" => $action, "method" => $method ], "content" => [
+        $attr1 = [ "name" => "formSearch", "class" => "form", "action" => $action, "method" => $method ];
+        $attr2 = $attributes ? array_merge($attr1, $attributes) : $attr1;
+        return [ "tag" => "form", "attributes" => $attr2, "content" => [
             [ "tag" => "fieldset", "content" => [
                 [ "tag" => "legend", "content" => _("Search") ],
                 [ "tag" => "input", "attributes" => [ "name" => $name, "type" => "text", "value" => $value ]],
