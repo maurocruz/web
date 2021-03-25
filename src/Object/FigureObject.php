@@ -1,14 +1,11 @@
 <?php
-
 namespace Plinct\Web\Object;
 
-class FigureObject {
-    
-    public function __invoke($value): array
-    {
+class FigureObject
+{
+    public function __invoke($value): array {
         $attributes = $value['attributes'] ?? null;
         $href = isset($value['href']) && $value['href'] != '' ? $value['href'] : null ;
-
         // title
         if (array_key_exists('title', $value) && $value['title'] !== "") {
             $content[] = [ "tag" => "h1", "content" => $value['title'], "href" => $href ];
