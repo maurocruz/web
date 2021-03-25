@@ -1,23 +1,19 @@
 <?php
 namespace Plinct\Web\Object;
 
-use Plinct\Tool\Image;
 use Plinct\Tool\Thumbnail;
 
 class PictureObject {
-    private $src;
+    private string $src;
     
-    public function __invoke($value): array
-    {
-        $image = Image::$IMAGE->getSrc() == $value['src'] ? Image::$IMAGE :  (new Image($value['src']));
+    public function __invoke($value): array {
         $sources = null;
         unset($value['object']);
-        $this->src = $image->getSrc();
+        $this->src = $value['src'];
         $inFigure = null;
-
         // sources
-        if((isset($value['sourceMeasures']) || isset($value['sources'])) && !$image->is_remote() && $image->is_valide()) {
-            $sources[] = $this->sources($value, $image);
+        if((isset($value['sourceMeasures']) || isset($value['sources']))) {
+            $sources[] = $this->sources($value);
         }        
         // img
         $img = [ "tag" => "img", "attributes" => [ "src" => $this->src, "alt" => "image" ] ];
@@ -37,19 +33,17 @@ class PictureObject {
             return $picture;
         }
     }
-    
-    //
-    private function sources($value, Image $image): array {
+
+    private function sources($value): array {
         $sources = $value['sourceMeasures'] ?? $value['sources'];
         $srcset = null;
         $source = [];
-
         foreach ($sources as $key => $valueSource) {
             // set srcset
             if (isset($valueSource['height']) && is_null($valueSource['height'])) {
-                $srcset = (new Thumbnail($image->getSource()))->getThumbnail($valueSource['width']);
+                $srcset = (new Thumbnail($value['src']))->getThumbnail($valueSource['width']);
             } elseif (isset($valueSource['height'])) {
-                $srcset = (new Thumbnail($image->getSource()))->getThumbnail($valueSource['width'], $valueSource['height']);
+                $srcset = (new Thumbnail($value['src']))->getThumbnail($valueSource['width'], $valueSource['height']);
             } elseif (isset($valueSource['srcset'])) {
                 $srcset = $valueSource['srcset'];
             } else {
