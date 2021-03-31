@@ -4,18 +4,18 @@ namespace Plinct\Web\Template;
 use Plinct\Tool\Locale;
 
 class TemplateAbstract {
-    protected array $html;
-    protected array $head;
-    protected array $body;
-    protected array $wrapper;
-    protected array $container;
-    protected array $header;
-    protected array $content;
-    protected array $contentHeader;
-    protected array $main;
-    protected array $contentFooter;
-    protected array $aside;
-    protected array $footer;
+    protected $html;
+    protected $head;
+    protected $body;
+    protected $wrapper;
+    protected $container;
+    protected $header;
+    protected $content;
+    protected $contentHeader;
+    protected $main;
+    protected $contentFooter;
+    protected $aside;
+    protected $footer;
 
     public function __construct() {
         $this->html = [ "tag" => "html", "attributes" => [ "lang" => Locale::getServerLanguage() ] ];

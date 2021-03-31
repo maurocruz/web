@@ -4,7 +4,7 @@ namespace Plinct\Web\Object;
 use Plinct\Tool\Thumbnail;
 
 class PictureObject {
-    private string $src;
+    private $src;
     
     public function __invoke($value): array {
         $sources = null;
