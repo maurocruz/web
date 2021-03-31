@@ -1,7 +1,7 @@
 {
     "name": "plinct/web",
     "description": "Web objects and widgets for Plinct app",
-    "license": "MIT",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Mauro Cruz",
