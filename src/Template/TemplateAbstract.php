@@ -91,6 +91,8 @@ class TemplateAbstract {
         // FOOTER
         $this->wrapper['content'][] = $this->footer;
         // HEAD & BODY
+        $this->body['content'][] = $this->wrapper;
+        // MINIMUN
         $this->minimum();
     }
 
