@@ -54,8 +54,6 @@ class PictureObject {
             } else {
                 $media = "(max-width: " . $valueSource['width'] . "px)";
             }
-            $srcWidth[] = $valueSource['width'];
-            $srcHeight[] = $valueSource['height'];
             $source[] = ["tag" => "source", "attributes" => ["media" => $media, "srcset" => $srcset]];
         }
         $this->src = $srcset;
