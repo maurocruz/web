@@ -62,7 +62,7 @@ trait FormTrait {
         return [ "tag" => "form", "attributes" => $attrfinal, "content" => $content ];
     }
 
-    protected static function input(string $name, string $type, string $value, array $attributes = null): array {
+    protected static function input(string $name, string $type, string $value = null, array $attributes = null): array {
         $attr = [ "name" => $name, "type" => $type, "value" => $value ];
         $attr2 = $attributes ? array_merge($attr, $attributes) : $attr;
         return [ "tag" => "input", "attributes" => $attr2 ];
@@ -95,6 +95,12 @@ trait FormTrait {
             ]];
         }
         return [ "tag" => "fieldset", "content" => $content ];
+    }
+
+    protected static function checkbox(string $name, string $value, array $attributes = null): array {
+        $attr1 = [ "name" => $name, "type" => "checkbox", "value" => $value ];
+        $attr2 = $attributes ? array_merge($attr1, $attributes) : $attr1;
+        return [ "tag" => "input", "attributes" => $attr2 ];
     }
 
     protected static function submitButtonSend($attributes = null): array {
