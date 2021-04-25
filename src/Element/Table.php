@@ -5,7 +5,7 @@ class Table {
     private $table = [ "tag" => "table" ];
     private $caption = [ "tag" => "caption" ];
     private $head;
-    private $body;
+    private $body = [ "tag" => "tbody" ];
     private $trBody;
     private $foot;
     private $attributes;
@@ -47,17 +47,9 @@ class Table {
     }
 
     /**
-     * BODIES
-     * @param null $attributes
+     * BODY
      */
-    private function setBody($attributes = null): void {
-        if(!$this->body) {
-            $this->body = [ "tag" => "tbody", "attributes" => $attributes ];
-        }
-    }
-
     public function bodyCell($content, $attributes = null, $href = null): Table {
-        $this->setBody();
         if (!$this->trBody) $this->setTrBody();
         $this->trBody['content'][] = [ "tag" => "td", "content" => $content, "attributes" => $attributes, "href" => $href ];
         return $this;
@@ -68,10 +60,9 @@ class Table {
         $this->trBody = null;
     }
 
-
-    private function setFoot($attributes = null): void {
+    private function setFoot(): void {
         if (!$this->foot) {
-            $this->foot = [ "tag" => "tfoot", "attributes" => $attributes, "content" => [ [ "tag" => "tr" ] ] ];
+            $this->foot = [ "tag" => "tfoot", "content" => [ [ "tag" => "tr" ] ] ];
         }
     }
     public function foot(string $content = null, array $attributes = null, string $href = null): Table {
