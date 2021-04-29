@@ -20,10 +20,10 @@ class ImageObject {
         $this->srcsetAttributes['sizes'] = "";
         $this->srcsetAttributes['srcset'] = "";
         $this->srcsetAttributes['src'] = "";
+        // CALL IMAGE CLASS
+        $image = new Image($value['src']);
         // THUMBNAIL
         if($width && $width !== '0') {
-            // CALL IMAGE CLASS
-            $image = new Image($value['src']);
             // CREATE THUMBNAIL
             $src = $image->thumbnail($width, $height);
             // CREATE OTHER SRCSET IMAGES
@@ -41,7 +41,7 @@ class ImageObject {
             $this->srcsetAttributes['srcset'] .= sprintf("%s %sw", $src, $width);
             $this->srcsetAttributes['src'] .= $src;
         } else {
-            $this->srcsetAttributes = [ "src" => $value['src'] ];
+            $this->srcsetAttributes = [ "src" => $image->getSrc() ];
         }
         // APPEND IN IMG ELEMENT
         $imgTag = [ "tag" => "img", "attributes" => array_merge($attributes, $this->srcsetAttributes) ];
