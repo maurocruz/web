@@ -122,12 +122,11 @@ trait FormTrait {
         // legend
         $content[] = [ "tag" => "legend", "content" => _("Search") ];
         // queries
-        $queries = explode("&",substr(strstr($_SERVER['REQUEST_URI'],"?"),1));
-        if ($queries) {
-            foreach ($queries as $valueQueries) {
-                $nameQuery = strstr($valueQueries, "=", true);
-                $valueQuery = substr(strstr($valueQueries, "="), 1);
-                $content[] = ["tag" => "input", "attributes" => ["name" => $nameQuery, "type" => "hidden", "value" => $valueQuery]];
+        $queryString = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+        parse_str($queryString, $queryArray);
+        if ($queryArray) {
+            foreach ($queryArray as $nameQuery => $valueQuery) {
+                $content[] = [ "tag" => "input", "attributes" => [ "name" => $nameQuery, "type" => "hidden", "value" => $valueQuery ]];
             }
         }
         // input search
