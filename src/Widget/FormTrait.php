@@ -116,14 +116,27 @@ trait FormTrait {
     }
 
     public static function search(string $action, string $name, string $value = null, string $method = "get", array $attributes = null): array {
+        // attributes
         $attr1 = [ "name" => "formSearch", "class" => "form", "action" => $action, "method" => $method ];
         $attr2 = $attributes ? array_merge($attr1, $attributes) : $attr1;
+        // legend
+        $content[] = [ "tag" => "legend", "content" => _("Search") ];
+        // queries
+        $queries = explode("&",substr(strstr($_SERVER['REQUEST_URI'],"?"),1));
+        if ($queries) {
+            foreach ($queries as $valueQueries) {
+                $nameQuery = strstr($valueQueries, "=", true);
+                $valueQuery = substr(strstr($valueQueries, "="), 1);
+                $content[] = ["tag" => "input", "attributes" => ["name" => $nameQuery, "type" => "hidden", "value" => $valueQuery]];
+            }
+        }
+        // input search
+        $content[] = [ "tag" => "input", "attributes" => [ "name" => $name, "type" => "text", "value" => $value ]];
+        // submit
+        $content[] = [ "tag" => "input", "attributes" => [ "type" => "submit", "value" => _("Submit") ] ];
+        // response
         return [ "tag" => "form", "attributes" => $attr2, "content" => [
-            [ "tag" => "fieldset", "content" => [
-                [ "tag" => "legend", "content" => _("Search") ],
-                [ "tag" => "input", "attributes" => [ "name" => $name, "type" => "text", "value" => $value ]],
-                [ "tag" => "input", "attributes" => [ "type" => "submit", "value" => _("Submit") ] ]
-            ] ]
+            [ "tag" => "fieldset", "content" => $content ]
         ]];
     }
 }
