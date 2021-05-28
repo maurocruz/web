@@ -60,7 +60,7 @@ class TemplateAbstract {
         $this->html['content'][] = $this->body;
     }
 
-    protected function simpleMain($header = false, $footer = null) {
+    protected function simpleMain() {
         // CONTENT HEADER
         $this->content['content'][] = $this->header;
         // MAIN
