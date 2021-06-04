@@ -11,8 +11,8 @@ class ImageObject {
 
     public function __invoke($value): array {
         // SET VARS
-        $width = $value['width'] ?? null;
-        $height = $value['height'] ?? null;
+        $width = isset($value['width']) && $value['width'] != '0' ? $value['width'] : null;
+        $height = isset($value['height']) && $value['height'] != '0' ? $value['height'] : null;
         $caption = isset($value['caption']) ? strip_tags($value['caption']) : null;
         $alt = $value['alt'] ?? $caption ?? "Image: ".basename($value['src']);
         $originalSrc = [ "data-source" => $value['src'], "data-caption" => $caption ?? null, "alt" => $alt ];
