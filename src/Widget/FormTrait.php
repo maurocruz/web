@@ -110,7 +110,7 @@ trait FormTrait {
     }
 
     protected static function submitButtonDelete($formaction, $attributes = null): array {
-        $attr = [ "name" => "submit", "src" => "/App/static/cms/images/delete.png", "formaction" => $formaction, "style" => "max-width: 40px; vertical-align: bottom; margin: 6px;", "type" => "image", "alt" => _("Delete data"), "title" => _("Delete data"), "onclick" => "return confirm('".("Are you sure you want to delete this item?")."');" ];
+        $attr = [ "name" => "submit", "src" => "/App/static/cms/images/delete.png", "formaction" => $formaction, "style" => "max-width: 40px; vertical-align: bottom; margin: 6px;", "type" => "image", "alt" => _("Delete data"), "title" => _("Delete data"), "onclick" => "return confirm('"._("Are you sure you want to delete this item?")."');" ];
         $attr2 = $attributes ? array_merge($attr, $attributes) : $attr;
         return [ "tag" => "input", "attributes" => $attr2 ];
     }
