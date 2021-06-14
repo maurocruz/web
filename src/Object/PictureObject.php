@@ -1,7 +1,7 @@
 <?php
 namespace Plinct\Web\Object;
 
-use Plinct\Tool\Thumbnail;
+use Plinct\Tool\Image\Image;
 
 class PictureObject {
     private $src;
@@ -41,9 +41,9 @@ class PictureObject {
         foreach ($sources as $key => $valueSource) {
             // set srcset
             if (isset($valueSource['height']) && is_null($valueSource['height'])) {
-                $srcset = (new Thumbnail($value['src']))->getThumbnail($valueSource['width']);
+                $srcset = (new Image($value['src']))->thumbnail($valueSource['width']);
             } elseif (isset($valueSource['height'])) {
-                $srcset = (new Thumbnail($value['src']))->getThumbnail($valueSource['width'], $valueSource['height']);
+                $srcset = (new Image($value['src']))->thumbnail($valueSource['width'], $valueSource['height']);
             } elseif (isset($valueSource['srcset'])) {
                 $srcset = $valueSource['srcset'];
             } else {

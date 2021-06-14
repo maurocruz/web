@@ -10,8 +10,12 @@ trait HtmlElementTrait
         return [ "tag" => $tag, "attributes" => $attributes, "content" => $content ];
     } 
     
-    protected static function noContent(): array {
+    protected static function warning(): array {
         return self::simpleTag("p", _("No content"), [ "class" => "warning"]);
+    }
+
+    public static function noContent($message = "No content"): array {
+        return [ "tag" => "p", "content" => _($message) ];
     }
 
     protected static function arrowBack(): array {
