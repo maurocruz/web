@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Plinct\Web\Widget;
 
+use Plinct\Web\Element\Element;
+
 trait FormTrait {
     use HtmlElementTrait;
 
@@ -104,15 +106,19 @@ trait FormTrait {
     }
 
     protected static function submitButtonSend($attributes = null): array {
-        $attr = [ "name" => "submit", "src" => "/App/static/cms/images/ok_64x64.png", "style" => "max-width: 40px; vertical-align: bottom; margin: 6px;", "type" => "image", "alt" => "Enviar", "title" => _("Submit") ];
+        $attr = ['type'=>'submit','name'=>'submit','class'=>'form-submit-button form-submit-button-send','title'=>('Submit'),'alt'=>_('Submit')];
         $attr2 = $attributes ? array_merge($attr, $attributes) : $attr;
-        return [ "tag" => "input", "attributes" => $attr2 ];
+        $button = new Element('button',$attr2);
+        $button->content('<span class="material-icons">send</span>');
+        return $button->ready();
     }
 
     protected static function submitButtonDelete($formaction, $attributes = null): array {
-        $attr = [ "name" => "submit", "src" => "/App/static/cms/images/delete.png", "formaction" => $formaction, "style" => "max-width: 40px; vertical-align: bottom; margin: 6px;", "type" => "image", "alt" => _("Delete data"), "title" => _("Delete data"), "onclick" => "return confirm('"._("Are you sure you want to delete this item?")."');" ];
+        $attr = ['type'=>'submit','name'=>'submit','class'=>'form-submit-button form-submit-button-delete','formaction'=>$formaction,'alt'=>_('Delete data'),'title'=>_('Delete data'),'onclick'=>"return confirm('"._("Are you sure you want to delete this item?")."');" ];
         $attr2 = $attributes ? array_merge($attr, $attributes) : $attr;
-        return [ "tag" => "input", "attributes" => $attr2 ];
+        $button = new Element('button',$attr2);
+        $button->content('<span class="material-icons">delete</span>');
+        return $button->ready();
     }
 
     public static function search(string $action, string $name, string $value = null, string $method = "get", array $attributes = null): array {
