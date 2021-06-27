@@ -18,8 +18,8 @@ trait HtmlElementTrait
         return [ "tag" => "p", "content" => _($message) ];
     }
 
-    protected static function arrowBack(): array {
-        return [ "object" => "image", "src" => "/App/static/cms/images/arrowBack.svg", "attributes" => [ "style" => "height: 48px; margin: 15px;"], "href" => "javascript: history.back();" ];
+    protected static function arrowBack(): string {
+        return "<span class='material-icons' style='cursor: pointer' onclick='history.back();'>arrow_back</span>";//[ "object" => "image", "src" => "/App/static/cms/images/arrowBack.svg", "attributes" => [ "style" => "height: 48px; margin: 15px;"], "href" => "javascript: history.back();" ];
     }
 
     protected static function scriptForJsonLd(array $value): array {
