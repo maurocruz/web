@@ -37,9 +37,10 @@ class ImageObject {
                 $this->srcsetAttributes($image, self::SRCSET_LARGE);
             }
             // SET ATTRIBUTES
-            $this->srcsetAttributes['sizes'] .= " {$width}px";
-            $this->srcsetAttributes['srcset'] .= sprintf("%s %sw", $src, $width);
-            $this->srcsetAttributes['src'] .= $src;
+
+            $this->srcsetAttributes['sizes'] .= " {$image->getNewWidth()}px";
+            $this->srcsetAttributes['srcset'] .= sprintf("%s %sw", $src, $image->getNewWidth());
+            $this->srcsetAttributes['src'] .= $image->getSrc();
         } else {
             $this->srcsetAttributes = [ "src" => $image->getSrc() ];
         }
