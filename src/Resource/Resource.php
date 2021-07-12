@@ -11,7 +11,7 @@ class Resource implements ResourceInterface {
     private $requestUri;
 
     public function __construct() {
-        $this->https = $_SERVER['HTTPS'];
+        $this->https = $_SERVER['HTTPS'] ?? null;
         $this->host = $_SERVER['HTTP_HOST'];
         $this->documentRoot = $_SERVER['DOCUMENT_ROOT'];
         $this->queryString = $_SERVER['QUERY_STRING'];
