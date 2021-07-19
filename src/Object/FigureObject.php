@@ -1,8 +1,8 @@
 <?php
 namespace Plinct\Web\Object;
 
-class FigureObject
-{
+class FigureObject {
+
     public function __invoke($value): array {
         $attributes = $value['attributes'] ?? null;
         $href = isset($value['href']) && $value['href'] != '' ? $value['href'] : null ;
@@ -13,7 +13,7 @@ class FigureObject
         // img
         if (array_key_exists('src', $value)) {
             $value['attributes'] = $value['imgAttributes'] ?? null;
-            $content[] = (new ImageObject())($value);
+            $content[] = (new ImageObject)($value);
         }
         // caption
         if (array_key_exists('caption', $value) && $value['caption'] == true) {
