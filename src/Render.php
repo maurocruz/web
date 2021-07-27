@@ -48,18 +48,20 @@ class Render
         } elseif (array_key_exists("object", $array) || array_key_exists("obj", $array)) {
             $object = $array["object"] ?? $array["obj"];
             $classname = "Plinct\\Web\\Object\\" . ucfirst($object)."Object";
-            $response .= self::tag((new $classname)($array));
+            if (class_exists($classname)) {
+                $response .= self::tag((new $classname)($array));
+            }
         } elseif (array_key_exists("include", $array)) {
             $response .= self::tag(json_decode(file_get_contents($array['include']), true));
         } elseif (is_array($array)) {        
             foreach ($array as $value) {
                 $response .= is_array($value) ? self::arrayToString($value) : $value;
             }
-        }        
+        }
         return $response ?? "[ empty! ]";
     }
     
-    private static function tag($value): string {
+    private static function tag(array $value): string {
             // open
             $response = "<".$value['tag'];
             // attributes

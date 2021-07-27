@@ -10,6 +10,7 @@ class ImageObject {
     private $srcsetAttributes;
 
     public function __invoke($value): array {
+        $imgTag = [];
         // SET VARS
         $width = isset($value['width']) && $value['width'] != '0' ? $value['width'] : null;
         $height = isset($value['height']) && $value['height'] != '0' ? $value['height'] : null;
