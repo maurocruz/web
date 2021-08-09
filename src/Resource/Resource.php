@@ -6,6 +6,7 @@ use Plinct\Web\Interfaces\ResourceInterface;
 class Resource implements ResourceInterface {
     private $https;
     private $host;
+    private $schema;
     private $documentRoot;
     private $queryString;
     private $requestUri;
@@ -13,6 +14,7 @@ class Resource implements ResourceInterface {
     public function __construct() {
         $this->https = $_SERVER['HTTPS'] ?? null;
         $this->host = $_SERVER['HTTP_HOST'];
+        $this->schema = $this->https ? "https://" : "http://";
         $this->documentRoot = $_SERVER['DOCUMENT_ROOT'];
         $this->queryString = $_SERVER['QUERY_STRING'];
         $this->requestUri = $_SERVER['REQUEST_URI'];
@@ -26,6 +28,16 @@ class Resource implements ResourceInterface {
         return $this->host;
     }
 
+    /**
+     * @return string
+     */
+    public function getSchema(): string {
+        return $this->schema;
+    }
+
+    public final function getHostWithSchema(): string {
+        return $this->schema.$this->host;
+    }
     public function getParams(): array {
         return explode('/',$this->requestUri);
     }

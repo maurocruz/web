@@ -18,13 +18,13 @@ class Form extends Element {
         return $this;
     }
 
-    public function input(string $name, string $value, string $type = 'text'): Form {
-        $this->content(self::setInput($name, $value, $type));
+    public function input(string $name, string $value, string $type = 'text', array $attributes = null): Form {
+        $this->content(self::setInput($name,$value,$type,$attributes));
         return $this;
     }
-    
-    public function fieldsetWithInput(string $name, string $value = null, string $legend = null, string $type = 'text', array $attributes = null ): Form {
-        $this->content(self::setFieldset(self::setInput($name, $value, $type),$legend,$attributes));
+
+    public function fieldsetWithInput(string $name, string $value = null, string $legend = null, string $type = 'text', array $attributes = null, array $attributesInput = null ): Form {
+        $this->content(self::setFieldset(self::setInput($name,$value,$type,$attributesInput),$legend,$attributes));
         return $this;
     }
 
@@ -50,8 +50,10 @@ class Form extends Element {
         $this->content(['tag'=>'button','attributes'=>$attributes,'content'=>'<span class="material-icons">delete</span>']);
         return $this;
     }
-    private static function setInput(string $name, string $value = null, string $type = 'text'): array {
-        return ['tag'=>'input','attributes'=>['name'=>$name,'value'=>$value,'type'=>$type]];
+    private static function setInput(string $name, string $value = null, string $type = 'text', array $attributes = null): array {
+        $attr1 = ['name'=>$name,'value'=>$value,'type'=>$type];
+        $attr2 = $attributes ? array_merge($attr1,$attributes) : $attr1;
+        return ['tag'=>'input','attributes'=>$attr2];
     }
 
     private static function setFieldset($content, string $legend = null, array $attributes = null): array {
