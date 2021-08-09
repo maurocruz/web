@@ -1,62 +1,51 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Plinct\Web\Object;
 
+use Exception;
 use Plinct\Tool\Image\Image;
+use Plinct\Web\Element\Element;
 
-class PictureObject {
-    private $src;
-    
+class PictureObject
+{
+    /**
+     * @throws Exception
+     */
     public function __invoke($value): array {
-        $sources = null;
         unset($value['object']);
-        $this->src = $value['src'];
-        $inFigure = null;
-        // sources
-        if((isset($value['sourceMeasures']) || isset($value['sources']))) {
-            $sources[] = $this->sources($value);
-        }        
-        // img
-        $img = [ "tag" => "img", "attributes" => [ "src" => $this->src, "alt" => "image" ] ];
-        foreach ($value as $key => $valuePicture) {
-            if($key !== 'src' && $key !== "sources" && $key !== "sourceMeasures" && $key !== "attributes") {
-                $inFigure = true;
-            }            
-        }
-        $picture = [ "tag" => "picture", "content" => [ $sources, $img ] ];
-        if ($inFigure) {
-            // content
-            $content = $value['content'] ?? null;
-            $picHref = isset($value['href']) ? [ "tag" => "a", "attributes" => [ "href" => $value['href'] ], "content" => $picture ] : $picture;
-            return [ "tag" => "figure", "attributes" => $value['attributes'] ?? null, "content" => [ $picHref, $content ] ];
-        } else {
-            $picture['attributes'] = $value['attributes'] ?? null;
-            return $picture;
-        }
-    }
+        $src = $value['src'] ?? null;
+        $attributes = $value['attributes'] ?? null;
+        $sources = $value['sources'] ?? $value['sourceMeasures'] ?? null;
 
-    private function sources($value): array {
-        $sources = $value['sourceMeasures'] ?? $value['sources'];
-        $srcset = null;
-        $source = [];
-        foreach ($sources as $key => $valueSource) {
-            // set srcset
-            if (isset($valueSource['height']) && is_null($valueSource['height'])) {
-                $srcset = (new Image($value['src']))->thumbnail($valueSource['width']);
-            } elseif (isset($valueSource['height'])) {
-                $srcset = (new Image($value['src']))->thumbnail($valueSource['width'], $valueSource['height']);
-            } elseif (isset($valueSource['srcset'])) {
-                $srcset = $valueSource['srcset'];
+        // PICTURE
+        $picture = new Element('picture',$attributes);
+
+            // SOURCES
+            if ($sources) {
+                foreach ($sources as $valueSource) {
+                    $image = new Image($src);
+                    $newWidth = $valueSource['width'];
+                    $newHeight = $valueSource['height'];
+                    $source = new Element('source');
+                    $image->thumbnail($newWidth, $newHeight);
+                    $source->attributes(['media'=>"(max-width: {$newWidth}px)",'srcset'=>$image->getThumbSrc()]);
+                    $picture->content($source->ready());
+                }
+                $src = $image->getThumbSrc();
             } else {
-                break;
+                $image = new Image($src);
+                $src = $image->getSrc();
             }
-            if (count($sources) == $key + 1) {
-                $media = "(min-width: " . $sources[$key - 1]['width'] . "px)";
-            } else {
-                $media = "(max-width: " . $valueSource['width'] . "px)";
-            }
-            $source[] = ["tag" => "source", "attributes" => ["media" => $media, "srcset" => $srcset]];
-        }
-        $this->src = $srcset;
-        return $source;
+
+            // IMAGE
+            $img = new Element('img');
+            $img->attributes(['src'=>$src]);
+
+        $picture->content($img->ready());
+
+        // RESPONSE
+        return $picture->ready();
     }
 }

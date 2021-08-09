@@ -15,5 +15,10 @@
         "psr-4": {
             "Plinct\\Web\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Plinct\\Web\\Debug\\": "debug/"
+        }
     }
 }
