@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Plinct\Web\Debug;
 
-use ReflectionClass;
 use ReflectionException;
+use ReflectionObject;
 
-class PrintObject
+trait PrintObjectTrait
 {
 
     /**
@@ -15,19 +15,23 @@ class PrintObject
      * @return string
      * @throws ReflectionException
      */
-    public static function printObject($object): string
+    protected static function printObject($object): string
     {
-        $reflectionClass = new ReflectionClass($object);
+        $reflectionClass = new ReflectionObject($object);
         $nameClass = $reflectionClass->getName();
 
-        $response = "<br>".Debug::spanClosure(gettype($object),'0.95em')." ".$nameClass;
-        $response .= "() {<ul style='margin: 0; list-style: none; padding-left: 1em;'>";
+        $response = "<br>".self::spanClosure(gettype($object),'0.95em')." ".$nameClass;
+        $response .= "() {<ul class='print-object' style='margin: 0; list-style: none; padding-left: 1em;'>";
 
         // PROPERTIES
-        $response .= self::getProperties($object, $reflectionClass->getProperties());
+        if (!empty($reflectionClass->getProperties())) {
+            $response .= self::getProperties($object, $reflectionClass->getProperties());
+        }
 
         // METHODS
-        $response .= self::getMethods($reflectionClass->getMethods());
+        if (!empty($reflectionClass->getMethods())) {
+            $response .= self::getMethods($reflectionClass->getMethods());
+        }
 
         $response .= "</ul>}";
 
@@ -53,14 +57,11 @@ class PrintObject
             // value
             $reflectionProperty->setAccessible(true);
             $value = $reflectionProperty->getValue($object);
-            // type
-            $valueType = gettype($value);
-            $type = $valueType !== 'array' ? Debug::spanClosure($valueType) : null;
 
-            $valueText = Debug::switchVar($value);
+            $valueText = self::switchVar($value);
 
             // response
-            $response .= "<li>$visibility $name = $type $valueText</li>";
+            $response .= "<li>$visibility $name = $valueText</li>";
         }
         return $response;
     }
@@ -74,6 +75,7 @@ class PrintObject
         $response = null;
 
         foreach ($reflectionMethods as $reflectionMethod) {
+            $params = [];
             // visibility
             $visibility = self::getVisibility($reflectionMethod);
             // name
@@ -84,13 +86,13 @@ class PrintObject
                 foreach ($reflectionMethod->getParameters() as $valueParams) {
                     $params[] = $valueParams->getName();
                 }
-                $parameters = Debug::spanClosure(implode(", ", $params),'0.9em');
+                $parameters = self::spanClosure(implode(", ", $params),'0.9em');
                 unset($params);
             }
             // return
             $return = null;
             if($reflectionMethod->getReturnType()) {
-                $return = ": ".Debug::spanClosure($reflectionMethod->getReturnType()->getName());
+                $return = ": " . self::spanClosure($reflectionMethod->getReturnType()->getName());
             }
 
             // response
