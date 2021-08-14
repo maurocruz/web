@@ -1,9 +1,11 @@
 <?php
+
 namespace Plinct\Web\Widget;
 
 use Plinct\Tool\StructuredData;
 
-trait HtmlElementTrait {
+trait HtmlElementTrait
+{
 
     protected static function simpleTag(string $tag, $content = null, array $attributes = null): array {
         return [ "tag" => $tag, "attributes" => $attributes, "content" => $content ];
