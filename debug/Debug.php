@@ -6,23 +6,12 @@ namespace Plinct\Web\Debug;
 
 use ReflectionException;
 
-class Debug implements DebugInterface
+class Debug extends Switcher implements DebugInterface
 {
     /**
-     * @var int
-     */
-    public static int $maxDeep;
-    /**
-     * @var int
-     */
-    public static int $currentDeep = 0;
-
-    /**
-     * @param $var
-     * @param int $maxDeep
      * @throws ReflectionException
      */
-    public static function dump($var, int $maxDeep = 2)
+    public static function dump($var, int $maxDeep = 3)
     {
         self::$maxDeep = $maxDeep;
 
@@ -33,43 +22,16 @@ class Debug implements DebugInterface
 
         $response = "$file on line $line:<br>";
 
-        $response .= self::switchVar($var);
+        $response .= parent::switchVar($var);
 
         // RESPONSE
         echo "<pre style='font-size: 14px; background-color: #333; overflow: auto; color: #e7e7e7;'>$response</pre>";
     }
 
-
-    /**
-     * @param $var
-     * @return string
-     * @throws ReflectionException
-     */
-    public static function switchVar($var): string
+    static function var_dump($var)
     {
-        switch (gettype($var)) {
-            case 'string':
-                return Debug::spanClosure(gettype($var)) . " '$var'";
-            case 'array':
-                return ArrayPrint::printArray($var);
-            case 'object':
-                return PrintObject::printObject($var);
-            case 'boolean':
-                return $var === true ? 'true' : 'false';
-            default:
-                return " Undefined";
-        }
+        echo "<pre>";
+        var_dump($var);
+        echo "</pre>";
     }
-
-
-    /**
-     * @param string $text
-     * @param string $fontSize
-     * @param string $color
-     * @return string
-     */
-    public static function spanClosure(string $text, string $fontSize = '0.85em;', string $color = '#aaa;'): string {
-        return "<span style='font-size: $fontSize; color: $color;'>$text</span>";
-    }
-
 }
