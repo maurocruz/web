@@ -22,7 +22,7 @@ class Debug implements DebugInterface
      * @param int $maxDeep
      * @throws ReflectionException
      */
-    public static function dump($var, $maxDeep = 1)
+    public static function dump($var, int $maxDeep = 2)
     {
         self::$maxDeep = $maxDeep;
 
@@ -68,7 +68,7 @@ class Debug implements DebugInterface
      * @param string $color
      * @return string
      */
-    public static function spanClosure(string $text, $fontSize = '0.85em;', $color = '#aaa;'): string {
+    public static function spanClosure(string $text, string $fontSize = '0.85em;', string $color = '#aaa;'): string {
         return "<span style='font-size: $fontSize; color: $color;'>$text</span>";
     }
 
