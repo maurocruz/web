@@ -99,7 +99,7 @@ class Form extends Element
     {
         $attributes['type'] = 'submit';
         $attributes['name'] = 'submit';
-        $this->content(['tag'=>'button','attributes'=>$attributes,'content'=>'<span class="material-icons">send</span>']);
+        $this->content(['tag'=>'button','attributes'=>$attributes,'content'=>'<span class="iconify form-submit-button form-submit-button-send" data-icon="mdi:send"></span>']);
         return $this;
     }
 
@@ -114,7 +114,7 @@ class Form extends Element
         $attributes['name'] = 'submit';
         $attributes['onclick'] = "return confirm('"._("Are you sure you want to delete this item?")."');";
         if ($formaction) $attributes['formaction'] = $formaction;
-        $this->content(['tag'=>'button','attributes'=>$attributes,'content'=>'<span class="material-icons">delete</span>']);
+        $this->content(['tag'=>'button','attributes'=>$attributes,'content'=>'<span class="material-icons form-submit-button form-submit-button-delete">delete</span>']);
         return $this;
     }
 
