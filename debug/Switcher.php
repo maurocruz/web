@@ -9,11 +9,11 @@ abstract class Switcher
     /**
      * @var int
      */
-    protected static $maxDeep;
+    protected static int $maxDeep;
     /**
      * @var int
      */
-    protected static $currentDeep = 0;
+    protected static int $currentDeep = 0;
 
     /**
      * @param $var
@@ -32,8 +32,6 @@ abstract class Switcher
     protected static function switchVar($var): string
     {
         switch (gettype($var)) {
-            case 'string':
-                return self::spanClosure(gettype($var)) . " '$var'";
             case 'array':
                 return self::printArray($var);
             case 'object':
@@ -41,7 +39,7 @@ abstract class Switcher
             case 'boolean':
                 return $var === true ? 'true' : 'false';
             default:
-                return " Undefined";
+                return self::spanClosure(gettype($var)) . " '$var'";
         }
     }
 
