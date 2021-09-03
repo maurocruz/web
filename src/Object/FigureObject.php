@@ -1,9 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Plinct\Web\Object;
+
+use Exception;
 
 class FigureObject {
 
-    public function __invoke($value): array {
+    /**
+     * @throws Exception
+     */
+    public function __invoke($value): array
+    {
         $attributes = $value['attributes'] ?? null;
         $href = isset($value['href']) && $value['href'] != '' ? $value['href'] : null ;
         // title
