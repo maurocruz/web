@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Plinct\Web;
 
+use Plinct\Web\Debug\Debug;
+
 class Render
 {
     /**
@@ -139,7 +141,11 @@ class Render
 
         if ($array) {
             foreach ($array as $key => $value) {
-                $response .= is_int($key) ? " $value" : " $key=\"$value\"";
+                if (is_array($value)) {
+                    $response .= self::attributes($value);
+                } else {
+                    $response .= is_integer($key) ? " $value" : " $key=\"$value\"";
+                }
             }
         }
 
