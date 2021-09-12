@@ -42,9 +42,21 @@ class PictureObject
 
             // IMAGE
             $img = new Element('img');
+
+            //SRC
             $img->attributes(['src'=>$src]);
 
-        $picture->content($img->ready());
+            // HREF
+            if (isset($value['href'])) {
+                $a = new Element('a');
+                $a->attributes(['href'=>$value['href']]);
+                $a->content($img->ready());
+
+                $picture->content($a->ready());
+
+            } else {
+                $picture->content($img->ready());
+            }
 
         // CONTENT
         if (isset($value['content'])) $picture->content($value['content']);
