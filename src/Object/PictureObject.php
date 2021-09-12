@@ -13,7 +13,8 @@ class PictureObject
     /**
      * @throws Exception
      */
-    public function __invoke($value): array {
+    public function __invoke($value): array
+    {
         unset($value['object']);
         $src = $value['src'] ?? null;
         $attributes = $value['attributes'] ?? null;
@@ -44,6 +45,9 @@ class PictureObject
             $img->attributes(['src'=>$src]);
 
         $picture->content($img->ready());
+
+        // CONTENT
+        if (isset($value['content'])) $picture->content($value['content']);
 
         // RESPONSE
         return $picture->ready();
