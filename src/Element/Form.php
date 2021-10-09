@@ -6,6 +6,9 @@ namespace Plinct\Web\Element;
 
 class Form extends Element
 {
+    private ?string $editor = null;
+
+
     /**
      * @param array|null $attributes
      * @param null $content
@@ -145,4 +148,27 @@ class Form extends Element
         return ['tag'=>'fieldset','attributes'=>$attributes,'content'=>$newContent];
     }
 
+
+    public function setEditor(string $id)
+    {
+        $this->editor = $id;
+    }
+
+    public function ready(): array
+    {
+        if ($this->editor) {
+            // RICH TEXT EDITOR
+            // reference https://richtexteditor.com/docs/configuration-reference.aspx
+
+            $baseUrl = "/App/static/cms/richtexteditor";
+
+            $this->content('<link rel="stylesheet" href="/App/static/cms/richtexteditor/rte_theme_default.css" />');
+            $this->content('<script type="text/javascript" src="/App/static/cms/richtexteditor/rte.js"></script>');
+            $this->content('<script type="text/javascript" src="/App/static/cms/richtexteditor/plugins/all_plugins.js"></script>');
+            $this->content("<script>const editor1 = new RichTextEditor('#$this->editor', { toolbar: 'basic', skin: 'gray', url_base: '$baseUrl' });</script>");
+        }
+
+
+        return parent::ready();
+    }
 }
