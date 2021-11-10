@@ -6,7 +6,14 @@ namespace Plinct\Web\Element;
 
 class Form extends Element
 {
+    /**
+     * @var string|null
+     */
     private ?string $editor = null;
+    /**
+     * @var string|null
+     */
+    private string $editorName = 'editor';
 
 
     /**
@@ -149,9 +156,10 @@ class Form extends Element
     }
 
 
-    public function setEditor(string $id)
+    public function setEditor(string $id, string $editorName = 'editor')
     {
         $this->editor = $id;
+        $this->editorName = $editorName;
     }
 
     public function ready(): array
@@ -165,7 +173,7 @@ class Form extends Element
             $this->content('<link rel="stylesheet" href="/App/static/cms/richtexteditor/rte_theme_default.css" />');
             $this->content('<script type="text/javascript" src="/App/static/cms/richtexteditor/rte.js"></script>');
             $this->content('<script type="text/javascript" src="/App/static/cms/richtexteditor/plugins/all_plugins.js"></script>');
-            $this->content("<script>const editor1 = new RichTextEditor('#$this->editor', { toolbar: 'basic', skin: 'gray', url_base: '$baseUrl' });</script>");
+            $this->content("<script>const $this->editorName = new RichTextEditor('#$this->editor', { toolbar: 'basic', skin: 'gray', url_base: '$baseUrl', toggleBorder: false, showFloatParagraph: false });</script>");
         }
 
 
