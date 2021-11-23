@@ -8,74 +8,64 @@ use Plinct\Tool\Locale;
 
 abstract class WebSiteAbstract
 {
+    /**
+     * @var array
+     */
     private array $html;
-    private static array $head;
-    private static array $body;
+    /**
+     * @var string[]
+     */
+    private array $head;
+    /**
+     * @var string[]
+     */
+    private array $body;
 
-    public function __construct() {
+    /**
+     *
+     */
+    public function __construct()
+    {
         $this->html = [ "tag" => "html", "attributes" => [ "lang" => Locale::getServerLanguage() ] ];
-        self::$head = [ "tag" => "head" ];
-        self::$body = [ "tag" => "body" ];
+        $this->head = [ "tag" => "head" ];
+        $this->body = [ "tag" => "body" ];
 
-        self::$head['content'][] = '<meta charset="utf-8">';
-        self::$head['content'][] = '<meta name="viewport" content="width=device-width">';
+        $this->head['content'][] = '<meta charset="utf-8">';
+        $this->head['content'][] = '<meta name="viewport" content="width=device-width">';
     }
+
 
     /**
      * @param array|string[] $head
      */
-    protected static function setHead(array $head): void
+    protected function setHead(array $head)
     {
-        self::$head = $head;
+        $this->head = $head;
     }
 
     /**
      * @return array|string[]
      */
-    protected static function getHead(): array
+    protected function getHead(): array
     {
-        return self::$head;
+        return $this->head;
     }
 
     /**
      * @return array|string[]
      */
-    protected static function getBody(): array
+    protected function getBody(): array
     {
-        return self::$body;
+        return $this->body;
     }
 
     /**
      * @param array|string[] $body
      */
-    public static function setBody(array $body): void
+    protected function setBody(array $body): void
     {
-        self::$body = $body;
+        $this->body = $body;
     }
-
-    /**
-     * @param array|null $attributes
-
-    protected static function setWrapper(?array $attributes)
-    {
-        self::$wrapper = [ "tag" => "div", "attributes" => $attributes ?? [ "class" => "wrapper"] ];
-    }*/
-
-    /**
-     * @param array|null $attributes
-
-    protected static function setContainer(?array $attributes)
-    {
-        self::$container = [ "tag" => "div", "attributes" => $attributes ?? [ "class" => "container"] ];;
-    }*/
-
-    /**
-     * @param array|null $attributes
-
-    protected static function setHeader(?array $attributes): void
-    {
-        self::$header = [ "tag" => "header", "attributes" => $attributes ?? [ "class" => "header"] ];
-    }*/
 
     /**
      * @return array
@@ -83,11 +73,10 @@ abstract class WebSiteAbstract
     protected function getHtml(): array
     {
         $this->html['content'] = [
-            self::getHead(),
-            self::getBody()
+            $this->getHead(),
+            $this->getBody()
         ];
 
         return $this->html;
     }
-
 }
