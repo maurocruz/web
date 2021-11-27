@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Plinct\Web\Element;
+namespace Plinct\Web\Element\Form;
 
-class Form extends Element
+use Plinct\Web\Element\ElementInterface;
+
+class Form extends FormAbstract implements FormInterface, ElementInterface
 {
     /**
      * @var string|null
@@ -18,20 +20,20 @@ class Form extends Element
 
     /**
      * @param array|null $attributes
-     * @param null $content
      */
-    public function __construct(array $attributes = null, $content = null)
+    public function __construct(array $attributes = null)
     {
-        parent::__construct('form', $attributes, $content);
+        parent::setElement('form');
+        parent::attributes($attributes);
     }
 
     /**
-     * @param string $action
+     * @param string $url
      * @return $this
      */
-    public function action(string $action): Form
+    public function action(string $url): Form
     {
-        $this->attributes(['action' => $action]);
+        parent::attributes(['action' => $url]);
         return $this;
     }
 
@@ -41,7 +43,7 @@ class Form extends Element
      */
     public function method(string $method): Form
     {
-        $this->attributes(['method'=>$method]);
+        parent::attributes(['method'=>$method]);
         return $this;
     }
 
@@ -98,6 +100,32 @@ class Form extends Element
         $attributesTextarea['name'] =$name;
         $textArea = ['tag'=>'textarea','attributes'=>$attributesTextarea,'content'=>$value];
         $this->content(self::setFieldset($textArea,$legend,$attributesFieldset));
+        return $this;
+    }
+
+    public function fieldsetWithSelect(string $name, $value, array $list, string $legend = null, array $attributes = null): Form
+    {
+        $options = null;
+
+        if (is_array($value)) {
+            $valueOption = key($value);
+            $nameOption = current($value);
+            $options .= "<option value='$valueOption'>$nameOption</option>";
+        } elseif (is_string($value)) {
+            $options .= "<option value='$value'>$value</option>";
+        }
+
+        $options .= "<option value=''>Select item...</option>";
+
+        foreach ($list as $keyList => $valueList) {
+            $options .= "<option value='$keyList'>$valueList</option>";
+        }
+
+        parent::content([ "tag" => "fieldset", "attributes" => $attributes, "content" => [
+            [ "tag" => "legend", "content" => $legend ],
+            ['tag'=>'select', 'attributes'=>['name'=>$name],'content'=>$options]
+        ]]);
+
         return $this;
     }
 
@@ -175,7 +203,6 @@ class Form extends Element
             $this->content('<script type="text/javascript" src="/App/static/cms/richtexteditor/plugins/all_plugins.js"></script>');
             $this->content("<script>const $this->editorName = new RichTextEditor('#$this->editor', { toolbar: 'basic', skin: 'gray', url_base: '$baseUrl', toggleBorder: false, showFloatParagraph: false });</script>");
         }
-
 
         return parent::ready();
     }

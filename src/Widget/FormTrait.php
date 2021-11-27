@@ -5,7 +5,8 @@ namespace Plinct\Web\Widget;
 
 use Plinct\Web\Element\Element;
 
-trait FormTrait {
+trait FormTrait // DEPRECATED
+{
     use HtmlElementTrait;
 
     public static function fieldset($content, $legend = null, $attributes = null): array {
