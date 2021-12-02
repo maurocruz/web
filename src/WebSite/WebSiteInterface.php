@@ -22,4 +22,9 @@ interface WebSiteInterface
      * @return mixed
      */
     public function ready();
+
+    /**
+     * @return string
+     */
+    public function run(): string;
 }

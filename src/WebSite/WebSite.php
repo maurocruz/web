@@ -37,6 +37,11 @@ class WebSite extends WebSiteAbstract implements WebSiteInterface
      */
     public function ready()
     {
-        echo "<!DOCTYPE html>" . Render::arrayToString($this->getHtml());
+        echo $this->run();
+    }
+
+    public function run(): string
+    {
+        return "<!DOCTYPE html>" . Render::arrayToString($this->getHtml());
     }
 }
