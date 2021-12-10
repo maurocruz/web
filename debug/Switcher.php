@@ -39,7 +39,7 @@ abstract class Switcher
             case 'boolean':
                 return $var === true ? 'true' : 'false';
             default:
-                return self::spanClosure(gettype($var)) . " '$var'";
+                return self::spanClosure(gettype($var)) . " '" . htmlspecialchars($var). "'";
         }
     }
 
