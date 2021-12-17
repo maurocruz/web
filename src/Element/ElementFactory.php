@@ -13,6 +13,11 @@ class ElementFactory
         return new Element($tag, $attributes, $content);
     }
 
+    public static function figure(array $attributes = null): Figure
+    {
+        return new Figure();
+    }
+
     public static function form(array $attributes = null): Form
     {
         return new Form($attributes);
