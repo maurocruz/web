@@ -22,29 +22,40 @@ class Picture
      */
     private ?array $source = null;
 
+    public function __construct(array $attributes = null)
+    {
+        $this->setAttributes($attributes);
+    }
+
     /**
      * @param array $attributes
+     * @return Picture
      */
-    public function setAttributes(array $attributes): void
+    public function setAttributes(array $attributes): Picture
     {
         $this->attributes = $attributes;
+        return $this;
     }
 
     /**
      * @param string $src
+     * @return Picture
      */
-    public function setSrc(string $src): void
+    public function setSrc(string $src): Picture
     {
         $this->src = $src;
+        return $this;
     }
 
     /**
      * @param $width
      * @param $height
+     * @return Picture
      */
-    public function setSource( $width, $height ): void
+    public function setSource( $width, $height ): Picture
     {
         $this->source[] = ['width'=>$width,'height'=>$height];
+        return $this;
     }
 
     /**

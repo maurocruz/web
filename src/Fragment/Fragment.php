@@ -25,4 +25,9 @@ class Fragment
     {
         return "<script type='application/ld+json'>$jsonSchema</script>";
     }
+
+    public static function icons(): IconsFragment
+    {
+        return new IconsFragment();
+    }
 }
