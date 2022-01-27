@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Plinct\Web\Fragment;
 
+use Plinct\Web\Element\Figure;
 use Plinct\Web\Fragment\Breadcrumb\Breadcrumb;
 use Plinct\Web\Fragment\Breadcrumb\BreadcrumbInterface;
 
@@ -15,6 +16,11 @@ class Fragment
     public static function breadcrumb(): BreadcrumbInterface
     {
         return new Breadcrumb();
+    }
+
+    public static function figure(): Figure
+    {
+        return new Figure();
     }
 
     /**
