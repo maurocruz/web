@@ -17,6 +17,8 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
      */
     private string $editorName = 'editor';
 
+    private string $editorUrlBase;
+
 
     /**
      * @param array|null $attributes
@@ -184,10 +186,11 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
     }
 
 
-    public function setEditor(string $id, string $editorName = 'editor')
+    public function setEditor(string $id, string $editorName = 'editor', string $baseUrl = "/App/static/cms/")
     {
         $this->editor = $id;
         $this->editorName = $editorName;
+        $this->editorUrlBase = $baseUrl;
     }
 
     public function ready(): array
@@ -196,11 +199,11 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
             // RICH TEXT EDITOR
             // reference https://richtexteditor.com/docs/configuration-reference.aspx
 
-            $baseUrl = "/App/static/cms/richtexteditor";
+            $baseUrl = $this->editorUrlBase . "richtexteditor";
 
-            $this->content('<link rel="stylesheet" href="/App/static/cms/richtexteditor/rte_theme_default.css" />');
-            $this->content('<script type="text/javascript" src="/App/static/cms/richtexteditor/rte.js"></script>');
-            $this->content('<script type="text/javascript" src="/App/static/cms/richtexteditor/plugins/all_plugins.js"></script>');
+            $this->content('<link rel="stylesheet" href="'.$baseUrl.'/rte_theme_default.css" />');
+            $this->content('<script type="text/javascript" src="'.$baseUrl.'/rte.js"></script>');
+            $this->content('<script type="text/javascript" src="'.$baseUrl.'/plugins/all_plugins.js"></script>');
             $this->content("<script>const $this->editorName = new RichTextEditor('#$this->editor', { toolbar: 'basic', skin: 'gray', url_base: '$baseUrl', toggleBorder: false, showFloatParagraph: false });</script>");
         }
 
