@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Plinct\Web\Element;
 
-use Plinct\Web\Debug\Debug;
 use Plinct\Web\Element\Form\Form;
+use Plinct\Web\Element\Form\FormInterface;
 
 class ElementFactory
 {
@@ -33,7 +33,7 @@ class ElementFactory
      * @param array|null $attributes
      * @return Form
      */
-    public static function form(array $attributes = null): Form
+    public static function form(array $attributes = null): FormInterface
     {
         return new Form($attributes);
     }
