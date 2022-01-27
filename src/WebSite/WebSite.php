@@ -24,6 +24,11 @@ class WebSite extends WebSiteAbstract implements WebSiteInterface
         $this->setHead($head);
     }
 
+    public function addHead($content)
+    {
+        $this->head['content'][] = $content;
+    }
+
     /**
      * @param array $body
      */
