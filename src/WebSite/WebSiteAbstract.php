@@ -15,7 +15,7 @@ abstract class WebSiteAbstract
     /**
      * @var string[]
      */
-    private array $head;
+    protected array $head;
     /**
      * @var string[]
      */
