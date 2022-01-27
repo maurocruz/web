@@ -13,6 +13,12 @@ interface WebSiteInterface
     public function head(array $head);
 
     /**
+     * @param $content
+     * @return mixed
+     */
+    public function addHead($content);
+
+    /**
      * @param array $body
      * @return mixed
      */
