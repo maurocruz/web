@@ -46,18 +46,6 @@ trait FormTrait // DEPRECATED
         ]];
     }
 
-    protected static function errorInfo($data, $type): ?array {
-        if ($data[0] == '42S02') {
-            return [ "tag" => "div", "content" => [
-                [ "tag" => "p", "content" => _($data[2]) ],
-                [ "tag" => "form", "attributes" => [ "action" => "/admin/$type/createSqlTable", "method" => "post" ], "content" => [
-                    [ "tag" => "input", "attributes" => [ "type" => "submit", "value" => _("Do you want to install it?") ] ]
-                ]]
-            ]];
-        }
-        return null;
-    }
-
     protected static function form(string $action, array $content, $attributes = null ): array {
         $class = is_string($attributes) ? $attributes : "formPadrao";
         $attr = [ "class" => $class, "action" => $action, "method" => "post" ];
