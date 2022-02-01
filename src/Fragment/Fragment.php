@@ -7,6 +7,7 @@ namespace Plinct\Web\Fragment;
 use Plinct\Web\Element\Figure;
 use Plinct\Web\Fragment\Breadcrumb\Breadcrumb;
 use Plinct\Web\Fragment\Breadcrumb\BreadcrumbInterface;
+use Plinct\Web\Widget\Scrollup;
 
 class Fragment
 {
@@ -18,9 +19,21 @@ class Fragment
         return new Breadcrumb();
     }
 
-    public static function figure(): Figure
+    /**
+     * @param array|null $attributes
+     * @return Figure
+     */
+    public static function figure(array $attributes = null): Figure
     {
-        return new Figure();
+        return new Figure($attributes);
+    }
+
+    /**
+     * @return IconsFragment
+     */
+    public static function icons(): IconsFragment
+    {
+        return new IconsFragment();
     }
 
     /**
@@ -32,8 +45,8 @@ class Fragment
         return "<script type='application/ld+json'>$jsonSchema</script>";
     }
 
-    public static function icons(): IconsFragment
+    public static function scrollup(): Scrollup
     {
-        return new IconsFragment();
+        return new Scrollup();
     }
 }
