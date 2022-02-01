@@ -6,15 +6,26 @@ namespace Plinct\Web\Fragment\Breadcrumb;
 
 abstract class BreadcrumbAbstract
 {
-    protected array $listWrapper;
-
-    protected array $listItem;
-
+    /**
+     * @var array|null
+     */
+    protected ?array $listWrapper = null;
+    /**
+     * @var array|null
+     */
+    protected ?array $listItem = null;
+    /**
+     * @var array|null
+     */
     protected ?array $attributes = null;
-
+    /**
+     * @var array|null
+     */
     protected ?array $breadcrumb = null;
-
-    protected string $url;
+    /**
+     * @var string|null
+     */
+    protected ?string $url = null;
 
     /**
      * @param array|null $attributes
@@ -49,10 +60,29 @@ abstract class BreadcrumbAbstract
         return $this->listWrapper;
     }
 
-    protected function setListItems()
+    /**
+     * @param null $baseBreadcrumb
+     * @param bool $byRequestUri
+     * @return void
+     */
+    protected function setListItems($baseBreadcrumb = null, bool $byRequestUri = true)
     {
-        foreach ($this->breadcrumb['itemListElement'] as $value) {
-            $this->setItemList($value['item']['@id'], $value['item']['name']);
+        if ($baseBreadcrumb) {
+            foreach ($baseBreadcrumb as $keyBB => $valueBB) {
+                $this->setItemList($keyBB, $valueBB);
+            }
+        }
+
+        if ($this->breadcrumb) {
+            foreach ($this->breadcrumb['itemListElement'] as $value) {
+                $this->setItemList($value['item']['@id'], $value['item']['name']);
+            }
+        } elseif ($byRequestUri) {
+            $explodeUri = array_filter(explode('/',filter_input(INPUT_SERVER,'REQUEST_URI')));
+
+            foreach ($explodeUri as $valueUrl) {
+                $this->setItemList($valueUrl, ucfirst($valueUrl));
+            }
         }
     }
 }
