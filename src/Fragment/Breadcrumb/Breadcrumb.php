@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Plinct\Web\Fragment\Breadcrumb;
 
-use Plinct\Web\Debug\Debug;
 use Plinct\Web\Render;
 
 class Breadcrumb extends BreadcrumbAbstract implements BreadcrumbInterface
@@ -23,13 +22,10 @@ class Breadcrumb extends BreadcrumbAbstract implements BreadcrumbInterface
      * @param string|null $breadcrumbSchema
      * @return BreadcrumbInterface
      */
-    public function setBreadcrumb(string $breadcrumbSchema = null): BreadcrumbInterface
+    public function setBreadcrumb(string $breadcrumbSchema): BreadcrumbInterface
     {
-        if ($breadcrumbSchema) {
-            $withArray = json_decode($breadcrumbSchema, true);
-            $this->breadcrumb = isset($withArray['@type']) && $withArray['@type'] == 'BreadcrumbList' ? $withArray : null;
-        }
-
+        $withArray = json_decode($breadcrumbSchema, true);
+        $this->breadcrumb = isset($withArray['@type']) && $withArray['@type'] == 'BreadcrumbList' ? $withArray : null;
         return $this;
     }
 
@@ -61,13 +57,15 @@ class Breadcrumb extends BreadcrumbAbstract implements BreadcrumbInterface
     }
 
     /**
+     * @param array|null $baseBreadcrumb
+     * @param bool $byRequestUri
      * @return string
      */
-    final public function getNavbar(): string
+    final public function getNavbar(array $baseBreadcrumb = null, bool $byRequestUri = true): string
     {
         $this->setListWrapper();
 
-        $this->setListItems();
+        $this->setListItems($baseBreadcrumb, $byRequestUri);
 
         return Render::arrayToString($this->getListWrapper());
     }
