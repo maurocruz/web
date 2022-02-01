@@ -12,7 +12,7 @@ interface BreadcrumbInterface
      * @param string|null $breadcrumbSchema
      * @return BreadcrumbInterface
      */
-    public function setBreadcrumb(string $breadcrumbSchema = null): BreadcrumbInterface;
+    public function setBreadcrumb(string $breadcrumbSchema): BreadcrumbInterface;
 
     /**
      * @param array $attributes
@@ -20,9 +20,21 @@ interface BreadcrumbInterface
      */
     public function attributes(array $attributes): BreadcrumbInterface;
 
+    /**
+     * @param string $url
+     * @return BreadcrumbInterface
+     */
     public function setUrl(string $url): BreadcrumbInterface;
 
-    public function getNavbar(): string;
+    /**
+     * @param array|null $baseBreadcrumb
+     * @param bool $byRequestUri
+     * @return string
+     */
+    public function getNavbar(array $baseBreadcrumb = null, bool $byRequestUri = true): string;
 
+    /**
+     * @return string
+     */
     public function getBreadcrumb(): string;
 }
