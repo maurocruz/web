@@ -1,10 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Plinct\Web\Widget;
 
-class Breadcrumb {
-    private $response;
+class Breadcrumb
+{
+    private array $response;
     
-    public function __construct($attributes = null) {
+    public function __construct($attributes = null)
+    {
         $attrSchema = ["itemscope", "itemtype" => "https://schema.org/BreadcrumbList"];
         $attrol = $attributes ? array_merge($attrSchema, $attributes) : $attrSchema;              
         $this->response = [ 
@@ -14,7 +19,8 @@ class Breadcrumb {
         ];
     }
 
-    public function enableBreadcrumb($breadcrumb): ?array {
+    public function enableBreadcrumb($breadcrumb): ?array
+    {
         if (isset($breadcrumb['numberOfItems']) && $breadcrumb['numberOfItems'] > 0 ? $breadcrumb['numberOfItems'] : $breadcrumb) {
             // json
             if (is_string($breadcrumb)) {
@@ -37,7 +43,8 @@ class Breadcrumb {
         return $this->response ?? null;
     }
 
-    public function addBreadcrumbFromURL($uri = null): ?array {
+    public function addBreadcrumbFromURL($uri = null): ?array
+    {
         $uri = $uri ?? filter_input(INPUT_SERVER, 'REQUEST_URI');
         $uri = substr($uri,-1) == '/' ? substr($uri,0,-1) : $uri;
         $paramsArray = explode("/", urldecode($uri));
@@ -64,7 +71,8 @@ class Breadcrumb {
         return count($paramsArray) > 1 ? $this->response : null;
     }    
     
-    private function decodeArrayBreadcrumb(array $arrayBreadcrumb): array {
+    private function decodeArrayBreadcrumb(array $arrayBreadcrumb): array
+    {
         // inicial
         $this->response['content'][] = self::addli('Inicial',1,"/");
         if (isset($arrayBreadcrumb['@context'])) {
@@ -82,7 +90,8 @@ class Breadcrumb {
         return $this->response;
     }
     
-    private function insertBreadcrumbBySimpleArray(array $arrayBreadcrumb): void {
+    private function insertBreadcrumbBySimpleArray(array $arrayBreadcrumb): void
+    {
         // inicial
         $this->response['content'][] = self::addli('Inicial',1,"/");
         $i=1;
