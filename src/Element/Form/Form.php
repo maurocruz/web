@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Plinct\Web\Element\Form;
 
 use Plinct\Web\Element\ElementInterface;
+use Plinct\Web\Fragment\Fragment;
 
 class Form extends FormAbstract implements FormInterface, ElementInterface
 {
@@ -117,14 +118,14 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
             $options .= "<option value='$value'>$value</option>";
         }
 
-        $options .= "<option value=''>Select item...</option>";
+        $options .= "<option value=''>" .("Select item..."). "</option>";
 
         foreach ($list as $keyList => $valueList) {
             $options .= "<option value='$keyList'>$valueList</option>";
         }
 
         parent::content([ "tag" => "fieldset", "attributes" => $attributes, "content" => [
-            [ "tag" => "legend", "content" => $legend ],
+            $legend ? [ "tag" => "legend", "content" => $legend ] : null,
             ['tag'=>'select', 'attributes'=>['name'=>$name],'content'=>$options]
         ]]);
 
@@ -139,7 +140,7 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
     {
         $attributes['type'] = 'submit';
         $attributes['name'] = 'submit';
-        $this->content(['tag'=>'button','attributes'=>$attributes,'content'=>'<span class="iconify form-submit-button form-submit-button-send" data-icon="mdi:send"></span>']);
+        $this->content(['tag'=>'button','attributes'=>$attributes,'content'=> Fragment::icons()->send() ]);
         return $this;
     }
 
@@ -154,7 +155,7 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
         $attributes['name'] = 'submit';
         $attributes['onclick'] = "return confirm('"._("Are you sure you want to delete this item?")."');";
         if ($formaction) $attributes['formaction'] = $formaction;
-        $this->content(['tag'=>'button','attributes'=>$attributes,'content'=>'<span class="material-icons form-submit-button form-submit-button-delete">delete</span>']);
+        $this->content(['tag'=>'button','attributes'=>$attributes,'content'=>Fragment::icons()->delete()]);
         return $this;
     }
 
