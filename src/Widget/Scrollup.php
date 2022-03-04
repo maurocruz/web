@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Plinct\Web\Widget;
 
 class Scrollup 
 {
+	/**
+	 * @return array
+	 */
     public static function addButton(): array
     {
         $content[] = [ "tag" => "script", "content" => <<<EOT
@@ -31,4 +36,12 @@ EOT
         
         return [ "tag" => "div", "attributes" => [ "class" => "scrollup" ], "content" => $content ];
     }
+
+	/**
+	 * @return array
+	 */
+		public function ready(): array
+		{
+			return self::addButton();
+		}
 }
