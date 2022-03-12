@@ -27,11 +27,11 @@ class Picture
         $this->setAttributes($attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return Picture
-     */
-    public function setAttributes(array $attributes): Picture
+	/**
+	 * @param array|null $attributes
+	 * @return Picture
+	 */
+    public function setAttributes(array $attributes = null): Picture
     {
         $this->attributes = $attributes;
         return $this;
