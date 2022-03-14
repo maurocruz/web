@@ -24,24 +24,28 @@ abstract class Switcher
     use ArrayPrintTrait;
     use PrintObjectTrait;
 
-    /**
-     * @param $var
-     * @return string
-     * @throws ReflectionException
-     */
-    protected static function switchVar($var): string
-    {
-        switch (gettype($var)) {
-            case 'array':
-                return self::printArray($var);
-            case 'object':
-                return self::printObject($var);
-            case 'boolean':
-                return $var === true ? 'true' : 'false';
-            default:
-                return self::spanClosure(gettype($var)) . " '" . htmlspecialchars($var). "'";
-        }
+  /**
+   * @param $var
+   * @return string
+   * @throws ReflectionException
+   */
+  protected static function switchVar($var): string
+  {
+    switch (gettype($var)) {
+      case 'array':
+        return self::printArray($var);
+      case 'object':
+        return self::printObject($var);
+	    case 'resource':
+		    return (string) $var;
+	    case 'resource (closed)':
+				return $var . " (closed)";
+			case 'boolean':
+				return $var === true ? 'true' : 'false';
+			default:
+        return self::spanClosure(gettype($var)) . " '" . htmlspecialchars($var). "'";
     }
+  }
 
     /**
      * @param string $text
