@@ -9,6 +9,7 @@ use Plinct\Web\Element\Picture;
 use Plinct\Web\Element\Table;
 use Plinct\Web\Fragment\Breadcrumb\Breadcrumb;
 use Plinct\Web\Fragment\Breadcrumb\BreadcrumbInterface;
+use Plinct\Web\Fragment\Icons\IconsFragment;
 use Plinct\Web\Widget\OpenStreetMap;
 use Plinct\Web\Widget\Scrollup;
 
@@ -31,9 +32,9 @@ class Fragment
     return new Figure($attributes);
   }
 
-  /**
-   * @return IconsFragment
-   */
+	/**
+	 * @return IconsFragment
+	 */
   public static function icons(): IconsFragment
   {
     return new IconsFragment();
