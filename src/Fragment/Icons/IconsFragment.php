@@ -17,6 +17,22 @@ class IconsFragment
 	/**
 	 * @return string
 	 */
+	public function backward(): string
+	{
+		return "<span class='iconify' data-icon='zondicons:backward'></span>";
+	}
+
+	/**
+	 * @return string
+	 */
+	public function backwardStep(): string
+	{
+		return "<span class='iconify' data-icon='zondicons:backward-step'></span>";
+	}
+
+	/**
+	 * @return string
+	 */
 	public function delete(): string
 	{
 		return "<span class='iconify menu-tab-icon icon-delete' data-icon='ic:round-delete-forever'></span>";
@@ -30,6 +46,21 @@ class IconsFragment
 		return "<span class='iconify menu-tab-icon icon-edit' data-icon='fa-solid:edit'></span>";
 	}
 
+	/**
+	 * @return string
+	 */
+	public function forward(): string
+	{
+		return "<span class='iconify' data-icon='zondicons:forward'></span>";
+	}
+
+	/**
+	 * @return string
+	 */
+	public function forwardStep(): string
+	{
+		return "<span class='iconify' data-icon='zondicons:forward-step'></span>";
+	}
   /**
    * @return string
    */
@@ -44,7 +75,7 @@ class IconsFragment
 	 */
 	public function noImage(int $width = 100): string
 	{
-		return '<span class="iconify" data-icon="ic:sharp-broken-image" style="color: #a2a2a2;" data-width="'.$width.'"></span>';
+		return '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M21 3v8.59l-3-3.01l-4 4.01l-4-4l-4 4l-3-3.01V3h18zm-3 8.42l3 3.01V21H3v-8.58l3 2.99l4-4l4 4l4-3.99z"/></svg>';
 	}
 
   /**

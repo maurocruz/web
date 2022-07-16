@@ -10,6 +10,7 @@ use Plinct\Web\Element\Table;
 use Plinct\Web\Fragment\Breadcrumb\Breadcrumb;
 use Plinct\Web\Fragment\Breadcrumb\BreadcrumbInterface;
 use Plinct\Web\Fragment\Icons\IconsFragment;
+use Plinct\Web\Fragment\PageNavigation\PageNavigation;
 use Plinct\Web\Widget\OpenStreetMap;
 use Plinct\Web\Widget\Scrollup;
 
@@ -48,6 +49,15 @@ class Fragment
 	public static function map(float $latitude, float $longitude): OpenStreetMap
 	{
 		return new OpenStreetMap($latitude, $longitude);
+	}
+
+	/**
+	 * @param array|null $attributes
+	 * @return PageNavigation
+	 */
+	public static function pageNavigation(array $attributes = null): PageNavigation
+	{
+		return new PageNavigation($attributes);
 	}
 
 	/**
