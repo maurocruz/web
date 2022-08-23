@@ -48,7 +48,7 @@ interface FormInterface
 
     /**
      * @param string $name
-     * @param array $value
+     * @param array | string $value
      * @param array $list
      * @param string|null $legend
      * @param array|null $attributes
