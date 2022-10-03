@@ -15,4 +15,13 @@ class WidgetFactory
     {
         return new OpenStreetMap($latitude, $longitude);
     }
+
+	/**
+	 * @param array|null $attributes
+	 * @return PlinctMap
+	 */
+		public static function map(array $attributes = null): PlinctMap
+		{
+			return new PlinctMap($attributes);
+		}
 }
