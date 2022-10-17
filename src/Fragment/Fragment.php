@@ -7,6 +7,7 @@ namespace Plinct\Web\Fragment;
 use Plinct\Web\Element\Figure;
 use Plinct\Web\Element\Picture;
 use Plinct\Web\Element\Table;
+use Plinct\Web\Element\Video;
 use Plinct\Web\Fragment\Breadcrumb\Breadcrumb;
 use Plinct\Web\Fragment\Breadcrumb\BreadcrumbInterface;
 use Plinct\Web\Fragment\Icons\IconsFragment;
@@ -94,4 +95,13 @@ class Fragment
   {
     return new Table();
   }
+
+	/**
+	 * @param array|null $attributes
+	 * @return Video
+	 */
+	public static function video(array $attributes = null): Video
+	{
+		return new Video($attributes);
+	}
 }

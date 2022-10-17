@@ -16,12 +16,12 @@ interface ElementInterface
      */
     public function attributes(array $attributes = null): ElementInterface;
 
-    /**
-     * @param $name
-     * @param $value
-     * @return ElementInterface
-     */
-    public function setAttribute($name, $value): ElementInterface;
+	/**
+	 * @param string $name
+	 * @param string $value
+	 * @return ElementInterface
+	 */
+    public function setAttribute(string $name, string $value): ElementInterface;
 
     /**
      * @param string $href

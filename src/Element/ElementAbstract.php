@@ -29,12 +29,12 @@ abstract class ElementAbstract implements ElementInterface
         return $this;
     }
 
-    /**
-     * @param $name
-     * @param $value
-     * @return ElementInterface
-     */
-    public function setAttribute($name,$value): ElementInterface
+	/**
+	 * @param string $name
+	 * @param string|null $value
+	 * @return ElementInterface
+	 */
+    public function setAttribute(string $name, string $value = null): ElementInterface
     {
         $this->element['attributes'][$name] = $value;
         return $this;
