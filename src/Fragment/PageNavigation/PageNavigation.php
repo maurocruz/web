@@ -41,6 +41,9 @@ class PageNavigation extends PageNavigationAbstract
 	}
 
 	/**
+	 * A quantidade de botões que serão mostrados.
+	 * Acima deste número, botões de avancar e retroceder são adicionados
+	 *
 	 * @param int $exposedPages
 	 * @return PageNavigation
 	 */
