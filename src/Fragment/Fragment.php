@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Plinct\Web\Fragment;
 
 use Plinct\Web\Element\Figure;
+use Plinct\Web\Element\ListElement;
 use Plinct\Web\Element\Picture;
 use Plinct\Web\Element\Table;
 use Plinct\Web\Element\Video;
@@ -41,6 +42,15 @@ class Fragment
   {
     return new IconsFragment();
   }
+
+	/**
+	 * @param array|null $attributes
+	 * @return ListElement
+	 */
+	public static function list(array $attributes = null): ListElement
+	{
+		return new ListElement($attributes);
+	}
 
 	/**
 	 * @param float $latitude
