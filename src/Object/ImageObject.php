@@ -53,9 +53,14 @@ class ImageObject
 
         // SET VARS
         $caption = isset($value['caption']) ? strip_tags($value['caption']) : null;
-        $alt = $value['alt'] ?? $caption ?? "Image: " . basename($src);
-        $originalSrc = ["data-source" => $src, "data-caption" => $caption ?? null, "alt" => $alt];
+        $originalSrc = ["data-source" => $src, "data-caption" => $caption ?? null];
+
         $attributes = isset($value['attributes']) ? array_merge($originalSrc, $value['attributes']) : $originalSrc;
+
+				if(isset($value['alt'])) {
+					$attributes['alt'] = $value['alt'];
+				}
+
         $this->srcsetAttributes['sizes'] = "";
         $this->srcsetAttributes['srcset'] = "";
         $this->srcsetAttributes['src'] = "";
