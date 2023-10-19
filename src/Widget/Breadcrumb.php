@@ -143,7 +143,7 @@ class Breadcrumb
 	 */
   private static function addli($name, $position, $href, $thispage = false): array {
     $attrSchemaLi = [ "itemprop" => "itemListElement", "itemscope", "itemtype" => "https://schema.org/ListItem" ];
-    $attrSchemaA = [ "itemtype" => "https://schema.org/Thing", "itemprop" => "item", "href" => str_replace(" ", "+", $href) ];
+    $attrSchemaA = [ "itemtype" => "https://schema.org/Thing", "itemscope", "itemprop" => "item", "href" => str_replace(" ", "+", $href) ];
     $attrA = $thispage ? array_merge( ["class" => "breadcrumb-link-thispage"], $attrSchemaA) : array_merge(["class" => "breadcrumb-link"], $attrSchemaA);
     return [
       "tag" => "li",
