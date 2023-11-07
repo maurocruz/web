@@ -1,7 +1,5 @@
 <?php
-
 declare(strict_types=1);
-
 namespace Plinct\Web\Object;
 
 use Exception;
@@ -17,12 +15,11 @@ class PictureObject
   {
     unset($value['object']);
     $src = $value['src'] ?? null;
+		$alt = $value['alt'] ?? null;
     $attributes = $value['attributes'] ?? null;
     $sources = $value['sources'] ?? $value['sourceMeasures'] ?? null;
-
     // PICTURE
     $picture = new Element('picture',$attributes);
-
     // SOURCES
     $image = new Image($src);
     if ($sources) {
@@ -38,28 +35,27 @@ class PictureObject
     } else {
 	    $src = $image->getSrc();
     }
-
     // IMAGE
     $img = new Element('img');
-
-    //SRC
+    // src
     $img->attributes(['src'=>$src]);
-
-    // HREF
+	  // alt
+	  if(!$image->isValidImage()) {
+		  $img->setAttribute('alt','[Image not validate]');
+	  } else {
+			$img->setAttribute('alt', $alt);
+	  }
+    // href
     if (isset($value['href'])) {
       $a = new Element('a');
       $a->attributes(['href'=>$value['href']]);
       $a->content($img->ready());
-
       $picture->content($a->ready());
-
     } else {
       $picture->content($img->ready());
     }
-
     // CONTENT
     if (isset($value['content'])) $picture->content($value['content']);
-
     // RESPONSE
     return $picture->ready();
   }

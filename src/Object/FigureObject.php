@@ -25,11 +25,11 @@ class FigureObject {
             $content[] = (new ImageObject)($value);
         }
         // caption
-        if (array_key_exists('caption', $value) && $value['caption'] == true) {
+        if (array_key_exists('caption', $value) && $value['caption']) {
             $content[] = [ "tag" => "figcaption", "attributes" => $value['figcaptionAttributes'] ?? null, "content" => $value['caption'], "href" => $href ];
         }
         // content
-        if (array_key_exists('content', $value) && $value['content'] == true) {
+        if (array_key_exists('content', $value) && $value['content']) {
             $content[] = $value['content'];
         }        
         return [ "tag" => "figure", "attributes" => $attributes, "content" => $content ?? null ];

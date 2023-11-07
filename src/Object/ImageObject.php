@@ -1,7 +1,5 @@
 <?php
-
 declare(strict_types=1);
-
 namespace Plinct\Web\Object;
 
 use Exception;
@@ -38,72 +36,55 @@ class ImageObject
 
     if ($src && $src !== '') {
       $pathinfo = pathinfo($src);
-      $width = isset($value['width']) && $value['width'] != '0' ? $value['width'] : null;
+      $width = isset($value['width']) && $value['width'] != '0' ? $value['width'] : (isset($value['height']) && $value['height'] != '0' ? 1 : null);
       $height = isset($value['height']) && $value['height'] != '0' ? $value['height'] : null;
-
       // SVG TYPE
       if (isset($pathinfo['extension']) && $pathinfo['extension'] == "svg") {
           $returns = [ "tag" => "img", "attributes" => [ 'src' => $src ]];
-
       } else {
 	      // CALL IMAGE CLASS
 	      $image = new Image($src);
-
 	      if (!$image->isValidImage()) return $returns;
-
         // SET VARS
         $caption = isset($value['caption']) ? strip_tags($value['caption']) : null;
         $originalSrc = ["data-source" => $src, "data-caption" => $caption ?? null];
-
         $attributes = isset($value['attributes']) ? array_merge($originalSrc, $value['attributes']) : $originalSrc;
-
 				if(isset($value['alt'])) {
 					$attributes['alt'] = $value['alt'];
 				}
-
         $this->srcsetAttributes['sizes'] = "";
         $this->srcsetAttributes['srcset'] = "";
         $this->srcsetAttributes['src'] = "";
-
-
         // THUMBNAIL
 	      if ($width) {
           // CREATE THUMBNAIL
           $src = $image->thumbnail($width, $height);
-
           // CREATE OTHER SRCSET IMAGES
           if ($width > self::SRCSET_SMALL) {
               $this->srcsetAttributes($image, self::SRCSET_SMALL);
           }
-
           if ($width > self::SRCSET_MEDIUM) {
               $this->srcsetAttributes($image, self::SRCSET_MEDIUM);
           }
-
           if ($width > self::SRCSET_LARGE) {
               $this->srcsetAttributes($image, self::SRCSET_LARGE);
           }
-
           // SET ATTRIBUTES
           $this->srcsetAttributes['sizes'] .= " {$image->getNewWidth()}px";
           $this->srcsetAttributes['srcset'] .= sprintf("%s %sw", $src, $image->getNewWidth());
           $this->srcsetAttributes['src'] .= $image->getSrc();
-
         } else {
           $this->srcsetAttributes = ["src" => $image->getSrc()];
         }
-
         // APPEND IN IMG ELEMENT
         $returns = ["tag" => "img", "attributes" => array_merge($attributes, $this->srcsetAttributes)];
       }
-
       // IF HREF
       if (isset($value['href']) && $value['href'] !== '') {
-          $hrefAttr = isset($value['hrefAttributes']) ? array_merge(["href" => $value['href']], $value['hrefAttributes']) : ["href" => $value['href']];
-          $returns = ["tag" => "a", "attributes" => $hrefAttr, "content" => $returns];
+        $hrefAttr = isset($value['hrefAttributes']) ? array_merge(["href" => $value['href']], $value['hrefAttributes']) : ["href" => $value['href']];
+        $returns = ["tag" => "a", "attributes" => $hrefAttr, "content" => $returns];
       }
     }
-
     // RESPONSE
     return $returns;
   }
