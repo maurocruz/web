@@ -18,7 +18,7 @@ class Picture
 	/**
 	 * @var string|null
 	 */
-	private ?string $alt;
+	private ?string $alt = null;
   /**
    * @var ?array
    */
