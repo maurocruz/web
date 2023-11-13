@@ -54,13 +54,15 @@ abstract class ElementAbstract implements ElementInterface
         return $this;
     }
 
-    /**
-     * @param string $href
-     * @return ElementInterface
-     */
-    public function href(string $href): ElementInterface
+	/**
+	 * @param string $href
+	 * @param array|null $attributes
+	 * @return ElementInterface
+	 */
+    public function href(string $href, array $attributes = null): ElementInterface
     {
         $this->element['href'] = $href;
+				$this->element['hrefAttributes'] = $attributes;
         return $this;
     }
 
