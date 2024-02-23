@@ -1,11 +1,13 @@
 <?php
-
 declare(strict_types=1);
-
 namespace Plinct\Web\Widget;
 
 class Breadcrumb
 {
+	/**
+	 * @var array
+	 */
+	private array $json = ["@context"=>"https://schema.org", "@type"=>"BreadcrumbList", "itemListElement"=>[]];
 	/**
 	 * @var array
 	 */
@@ -16,11 +18,9 @@ class Breadcrumb
 	 */
   public function __construct($attributes = null)
   {
-    $attrSchema = ["itemscope", "itemtype" => "https://schema.org/BreadcrumbList"];
-    $attrol = $attributes ? array_merge($attrSchema, $attributes) : $attrSchema;
     $this->response = [
       "tag"=>"ol",
-      "attributes" => $attrol,
+      "attributes" => $attributes,
       "content" => []
     ];
   }
@@ -78,11 +78,12 @@ class Breadcrumb
         }
         $text = strstr($value, "?", true) !== false ? strstr($value, "?", true) : $value;
         $this->response['content'][] = self::addli(ucfirst($text), $i, $href, count($paramsArray) == $i + 1);
+				$this->json['itemListElement'][] = ["@type"=>"ListItem", "position"=>$i, "name"=>ucfirst($text),"item"=>$this->formatHref($href)];
         $lastHref = $i > 0 ? $href . "/" : $href;
         $i++;
       }
     }
-    return count($paramsArray) > 1 ? $this->response : null;
+    return count($paramsArray) > 1 ? $this->ready() : null;
   }
 
 	/**
@@ -106,6 +107,7 @@ class Breadcrumb
 					$this->response['content'][] = ["tag" => "li", "content" => " > "];
 				}
         $this->response['content'][] = self::addli($item['name'], $value['position'], $item['@id'], $key+1==$numberOfItem);
+	      $this->json['itemListElement'][] = ["@type"=>"ListItem", "position"=>$value['position'], "name"=>$value["item"]['name'],"item"=>  $item['@id']];
       }
 		} else {
       foreach ($arrayBreadcrumb as $key => $value) {
@@ -113,9 +115,10 @@ class Breadcrumb
         $this->response['content'][] = [ "tag" => "li", "content" => " > " ];
         $href = substr($value['item']['id'], -1) == '/' ? substr($value['item']['id'], 0, -1) : $value['item']['id'];
         $this->response['content'][] = self::addli($value["item"]['name'], $value['position'], $href, $key+1==$numberOfItem);
+				$this->json['itemListElement'][] = ["@type"=>"ListItem", "position"=>$value['position'], "name"=>$value["item"]['name'],"item"=> $href];
       }
     }
-    return $this->response;
+    return $this->ready();
 	}
 
 	/**
@@ -142,25 +145,28 @@ class Breadcrumb
 	 * @return array
 	 */
   private static function addli($name, $position, $href, $thispage = false): array {
-    $attrSchemaLi = [ "itemprop" => "itemListElement", "itemscope", "itemtype" => "https://schema.org/ListItem" ];
-    $attrSchemaA = [ "itemtype" => "https://schema.org/Thing", "itemscope", "itemprop" => "item", "href" => str_replace(" ", "+", $href) ];
+    $attrSchemaA = [ "href" => str_replace(" ", "+", $href) ];
     $attrA = $thispage ? array_merge( ["class" => "breadcrumb-link-thispage"], $attrSchemaA) : array_merge(["class" => "breadcrumb-link"], $attrSchemaA);
     return [
       "tag" => "li",
-      "attributes" => $attrSchemaLi,
-      "content" => [
-        [
-          "tag"=>"a",
-          "attributes"=> $attrA,
-          "content" => [
-            ["tag"=>"span", "attributes" => ["itemprop" => "name"], "content" => $name ]
-          ]
-        ],
-        [
-          "tag" => "meta",
-          "attributes" => ["itemprop" => "position", "content" => $position]
-        ]
-      ]
+      "content" => [["tag"=>"a","attributes"=> $attrA,"content" => $name]]
     ];
   }
+
+	/**
+	 * @param string $href
+	 * @return string
+	 */
+	private function formatHref(string $href): string
+	{
+		return substr($href,0,1) === '/' ? "https://".$_SERVER['HTTP_HOST'].$href : $href;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function ready(): array
+	{
+		return [$this->response, "<script type='application/ld+json'>".json_encode($this->json, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."</script>"];
+	}
 }
