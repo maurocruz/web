@@ -43,7 +43,7 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
    * @param string $method
    * @return $this
    */
-  public function method(string $method): Form {
+  public function method(string $method): FormInterface {
     parent::attributes(['method'=>$method]);
     return $this;
   }
@@ -202,7 +202,7 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
       $this->content('<link rel="stylesheet" href="'.$baseUrl.'/rte_theme_default.css" />');
       $this->content('<script type="text/javascript" src="'.$baseUrl.'/rte.js"></script>');
       $this->content('<script type="text/javascript" src="'.$baseUrl.'/plugins/all_plugins.js"></script>');
-      $this->content("<script>const $this->editorName = new RichTextEditor('#$this->editor', { toolbar: 'basic', skin: 'gray', url_base: '$baseUrl', toggleBorder: false, showFloatParagraph: false });</script>");
+      //$this->content("<script>const $this->editorName = new RichTextEditor('#$this->editor', { toolbar: 'basic', skin: 'gray', url_base: '$baseUrl', toggleBorder: false, showFloatParagraph: false });</script>");
     }
 
     return parent::ready();
