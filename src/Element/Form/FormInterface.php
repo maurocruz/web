@@ -72,6 +72,7 @@ interface FormInterface
    */
   public function fieldsetWithTextarea(string $name, string $value = null, string $legend = null, array $attributesFieldset = null, array $attributesTextarea = []): FormInterface;
 
+	public function fieldsetWithRadio(string $name, array $items, $valueChecked, string $legend = null): FormInterface;
   /**
    * @param string $id
    * @param string $editorName

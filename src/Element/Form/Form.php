@@ -1,7 +1,5 @@
 <?php
-
 declare(strict_types=1);
-
 namespace Plinct\Web\Element\Form;
 
 use Plinct\Web\Element\ElementInterface;
@@ -100,9 +98,16 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
     return $this;
   }
 
+	/**
+	 * @param string $name
+	 * @param $value
+	 * @param array $list
+	 * @param string|null $legend
+	 * @param array|null $attributes
+	 * @return $this
+	 */
   public function fieldsetWithSelect(string $name, $value, array $list, string $legend = null, array $attributes = null): Form {
     $options = null;
-
     if (is_array($value)) {
       $valueOption = key($value);
       $nameOption = current($value);
@@ -112,13 +117,10 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
     } elseif (is_string($value)) {
       $options .= "<option value='$value'>$value</option>";
     }
-
     $options .= "<option value=''>" .("Select item..."). "</option>";
-
     foreach ($list as $keyList => $valueList) {
       $options .= "<option value='$keyList'>$valueList</option>";
     }
-
     parent::content([ "tag" => "fieldset", "attributes" => $attributes, "content" => [
       $legend ? [ "tag" => "legend", "content" => $legend ] : null,
       ['tag'=>'select', 'attributes'=>['name'=>$name],'content'=>$options]
@@ -126,6 +128,30 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
 
     return $this;
   }
+
+	/**
+	 * @param string $name
+	 * @param array $items
+	 * @param $valueChecked
+	 * @param string|null $legend
+	 * @return $this
+	 */
+	public function fieldsetWithRadio(string $name, array $items, $valueChecked, string $legend = null): Form
+	{
+		$labels = null;
+		foreach ($items as $key => $value) {
+			$input = ['tag'=>'input','attributes'=>['name'=>$name, 'type'=>'radio', 'value'=>$key], 'content'=>$value];
+			if ($valueChecked === $key) {
+				$input['attributes']['checked'] = 'checked';
+			}
+			$labels[] = ['tag'=>'label', 'content'=> $input];//<label><input name='$name' type='radio' value='$key' checked=''> $value</label>";
+		}
+		parent::content(['tag'=>'fieldset', 'content' => [
+			$legend ? [ "tag" => "legend", "content" => $legend ] : null,
+			$labels
+		]]);
+		return $this;
+	}
 
   /**
    * @param array|null $attributes
@@ -196,9 +222,7 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
     if ($this->editor) {
       // RICH TEXT EDITOR
       // reference https://richtexteditor.com/docs/configuration-reference.aspx
-
       $baseUrl = $this->editorUrlBase . "richtexteditor";
-
       $this->content('<link rel="stylesheet" href="'.$baseUrl.'/rte_theme_default.css" />');
       $this->content('<script type="text/javascript" src="'.$baseUrl.'/rte.js"></script>');
       $this->content('<script type="text/javascript" src="'.$baseUrl.'/plugins/all_plugins.js"></script>');
