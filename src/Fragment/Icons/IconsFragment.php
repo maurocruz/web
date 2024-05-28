@@ -7,27 +7,33 @@ namespace Plinct\Web\Fragment\Icons;
 class IconsFragment
 {
 	/**
+	 * @param int $width
+	 * @param int $height
 	 * @return string
 	 */
-	public function arrowBack(): string
+	public function arrowBack(int $width = 24, int $height = 24): string
 	{
-		return "<span class='iconify' style='font-size: 2em; cursor: pointer;' data-icon='akar-icons:arrow-back-thick' onclick='history.back();'></span>";
+		return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 24 24" style="cursor: pointer;" onclick="history.back();"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2 11l7-9v5c11.953 0 13.332 9.678 13 15c-.502-2.685-.735-7-13-7v5z"/></svg>';
 	}
 
 	/**
+	 * @param int $width
+	 * @param int $height
 	 * @return string
 	 */
-	public function backward(): string
+	public function backward(int $width = 24, int $height = 24): string
 	{
-		return "<span class='iconify' data-icon='zondicons:backward'></span>";
+		return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 20 20"><path fill="currentColor" d="M19 5v10l-9-5zm-9 0v10l-9-5z"/></svg>';
 	}
 
 	/**
+	 * @param int $width
+	 * @param int $height
 	 * @return string
 	 */
-	public function backwardStep(): string
+	public function backwardStep(int $width = 24, int $height = 24): string
 	{
-		return "<span class='iconify' data-icon='zondicons:backward-step'></span>";
+		return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 20 20"><path fill="currentColor" d="M4 5h3v10H4zm12 0v10l-9-5z"/></svg>';
 	}
 
 	/**
@@ -39,67 +45,83 @@ class IconsFragment
 	}
 
 	/**
+	 * @param int $width
+	 * @param int $height
 	 * @return string
 	 */
-	public function delete(): string
+	public function delete(int $width = 24, int $height = 24): string
 	{
-		return "<span class='iconify menu-tab-icon icon-delete' data-icon='ic:round-delete-forever'></span>";
+		return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zm3.17-6.41a.996.996 0 1 1 1.41-1.41L12 12.59l1.41-1.41a.996.996 0 1 1 1.41 1.41L13.41 14l1.41 1.41a.996.996 0 1 1-1.41 1.41L12 15.41l-1.41 1.41a.996.996 0 1 1-1.41-1.41L10.59 14zM18 4h-2.5l-.71-.71c-.18-.18-.44-.29-.7-.29H9.91c-.26 0-.52.11-.7.29L8.5 4H6c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1"/></svg>';
 	}
 
 	/**
+	 * @param int $width
+	 * @param int $height
 	 * @return string
 	 */
-	public function edit(): string
+	public function edit(int $width = 24, int $height = 24): string
 	{
-		return "<span class='iconify menu-tab-icon icon-edit' data-icon='fa-solid:edit'></span>";
+		return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 576 512"><path fill="currentColor" d="m402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0m162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2M384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5"/></svg>';
 	}
 
 	/**
+	 * @param int $width
+	 * @param int $height
 	 * @return string
 	 */
-	public function forward(): string
+	public function forward(int $width = 24, int $height = 24): string
 	{
-		return "<span class='iconify' data-icon='zondicons:forward'></span>";
+		return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 20 20"><path fill="currentColor" d="m1 5l9 5l-9 5zm9 0l9 5l-9 5z"/></svg>';
 	}
 
 	/**
+	 * @param int $width
+	 * @param int $height
 	 * @return string
 	 */
-	public function forwardStep(): string
+	public function forwardStep(int $width = 24, int $height = 24): string
 	{
-		return "<span class='iconify' data-icon='zondicons:forward-step'></span>";
+		return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 20 20"><path fill="currentColor" d="M13 5h3v10h-3zM4 5l9 5l-9 5z"/></svg>';
 	}
-  /**
-   * @return string
-   */
-  public function home(): string
+
+	/**
+	 * @param int $width
+	 * @param int $height
+	 * @return string
+	 */
+  public function home(int $width = 24, int $height = 24): string
   {
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 20 20"><path fill="currentColor" d="M8 20H3V10H0L10 0l10 10h-3v10h-5v-6H8z"/></svg>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 20 20"><path fill="currentColor" d="M8 20H3V10H0L10 0l10 10h-3v10h-5v-6H8z"/></svg>';
   }
 
 	/**
 	 * @param int $width
+	 * @param int $height
 	 * @return string
 	 */
-	public function noImage(int $width = 100): string
+	public function noImage(int $width = 24, int $height = 24): string
 	{
-		return '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M21 3v8.59l-3-3.01l-4 4.01l-4-4l-4 4l-3-3.01V3h18zm-3 8.42l3 3.01V21H3v-8.58l3 2.99l4-4l4 4l4-3.99z"/></svg>';
+		return '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="'.$width.'" height="'.$height.'" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M21 3v8.59l-3-3.01l-4 4.01l-4-4l-4 4l-3-3.01V3h18zm-3 8.42l3 3.01V21H3v-8.58l3 2.99l4-4l4 4l4-3.99z"/></svg>';
 	}
 
-  /**
-   * @return string
-   */
-  public function plus(): string
+	/**
+	 * @param int $width
+	 * @param int $height
+	 * @return string
+	 */
+  public function plus(int $width = 24, int $height = 24): string
   {
-    return "<span class='iconify menu-tab-icon icon-plus' data-icon='akar-icons:plus'></span>";
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 20v-8m0 0V4m0 8h8m-8 0H4"/></svg>';
   }
 
-  /**
-   * @return string
-   */
-  public function send(): string
+	/**
+	 * @param int $width
+	 * @param int $height
+	 * @return string
+	 */
+  public function send(int $width = 24, int $height = 24): string
   {
-    return '<span class="iconify form-submit-button form-submit-button-send" data-icon="mdi:send"></span>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 24 24"><path fill="currentColor" d="m2 21l21-9L2 3v7l15 2l-15 2z"/></svg>';
   }
 
 	/**
