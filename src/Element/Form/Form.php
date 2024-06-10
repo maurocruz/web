@@ -111,13 +111,13 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
     if (is_array($value)) {
       $valueOption = key($value);
       $nameOption = current($value);
-      $options .= "<option value='$valueOption'>$nameOption</option>";
+      $options .= "<option value='$valueOption'>"._($nameOption)."</option>";
     } elseif (is_numeric($value)) {
       $options .= "<option value='$value'>$list[$value]</option>";
     } elseif (is_string($value)) {
-      $options .= "<option value='$value'>$value</option>";
+      $options .= "<option value='$value'>"._($value)."</option>";
     }
-    $options .= "<option value=''>" .("Select item..."). "</option>";
+    $options .= "<option value=''>" ._("Select item..."). "</option>";
     foreach ($list as $keyList => $valueList) {
       $options .= "<option value='$keyList'>$valueList</option>";
     }
@@ -226,7 +226,11 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
       $this->content('<link rel="stylesheet" href="'.$baseUrl.'/rte_theme_default.css" />');
       $this->content('<script type="text/javascript" src="'.$baseUrl.'/rte.js"></script>');
       $this->content('<script type="text/javascript" src="'.$baseUrl.'/plugins/all_plugins.js"></script>');
-      //$this->content("<script>const $this->editorName = new RichTextEditor('#$this->editor', { toolbar: 'basic', skin: 'gray', url_base: '$baseUrl', toggleBorder: false, showFloatParagraph: false });</script>");
+      $this->content("<script>
+				const config = { toolbar: 'mytoolbar', skin: 'gray', url_base: '$baseUrl', toggleBorder: false, showFloatParagraph: false };
+        config.toolbar_mytoolbar = '{bold,italic,underline,strike,superscript,subscript}|{fontsize}|{forecolor,backcolor}|{justifyleft,justifycenter,justifyright,justifyfull}|{insertorderedlist,insertunorderedlist}|{insertlink,unlink,insertimage}|removeformat|insertdocument'+'#{undo,redo,fullscreenenter,fullscreenexit,code}';
+				const $this->editorName = new RichTextEditor('#$this->editor', config );
+			</script>");
     }
 
     return parent::ready();
