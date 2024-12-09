@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 namespace Plinct\Web\Object;
 
 use Exception;
@@ -73,7 +72,8 @@ class ImageObject
 		$this->href = $value['href'] ?? null;
 	  $this->attributes = $value['attributes'] ?? [];
 		$this->hrefAttributes = $value['hrefAttributes'] ?? null;
-	  $this->image = new Image($this->source);
+		$source = str_replace(" ","%20",$this->source);
+	  $this->image = new Image($source);
 		$this->width = isset($value['width']) && $value['width'] != '0'	? $value['width'] : (isset($value['height']) && $value['height'] != '0' ? 1 : null);
 	  $this->width = ($this->width <= 1 ? $this->largeSize * $this->width : $this->width);
 	  if (!$this->image->isValidImage()) {

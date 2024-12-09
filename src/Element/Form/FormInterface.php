@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 namespace Plinct\Web\Element\Form;
 
 use Plinct\Web\Element\ElementInterface;
@@ -84,7 +83,7 @@ interface FormInterface
    * @param array|null $attributes
    * @return FormInterface
    */
-  public function submitButtonSend(array $attributes = null): FormInterface;
+  public function submitButtonSend(array $attributes = []): FormInterface;
 
   /**
    * @param string|null $formaction
