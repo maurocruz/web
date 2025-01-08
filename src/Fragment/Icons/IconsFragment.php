@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace Plinct\Web\Fragment\Icons;
 
 class IconsFragment
@@ -89,7 +86,7 @@ class IconsFragment
 	 * @param int $height
 	 * @return string
 	 */
-  public function home(int $width = 24, int $height = 24): string
+  public function home(int $width = 16, int $height = 16): string
   {
     return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 20 20"><path fill="currentColor" d="M8 20H3V10H0L10 0l10 10h-3v10h-5v-6H8z"/></svg>';
   }
@@ -109,7 +106,7 @@ class IconsFragment
 	 * @param int $height
 	 * @return string
 	 */
-  public function plus(int $width = 24, int $height = 24): string
+  public function plus(int $width = 16, int $height = 16): string
   {
     return '<svg xmlns="http://www.w3.org/2000/svg" width="'.$width.'" height="'.$height.'" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 20v-8m0 0V4m0 8h8m-8 0H4"/></svg>';
   }
