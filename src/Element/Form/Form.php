@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 namespace Plinct\Web\Element\Form;
 
 use Plinct\Web\Element\ElementInterface;
@@ -14,7 +13,7 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
   /**
    * @var string|null
    */
-  private string $editorName = 'editor';
+  private ?string $editorName = 'editor';
 	/**
 	 * @var string
 	 */
@@ -114,7 +113,7 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
       $options .= "<option value='$valueOption'>"._($nameOption)."</option>";
     } elseif (is_numeric($value)) {
       $options .= "<option value='$value'>$list[$value]</option>";
-    } elseif (is_string($value)) {
+    } elseif (!!$value && is_string($value)) {
       $options .= "<option value='$value'>"._($value)."</option>";
     }
     $options .= "<option value=''>" ._("Select item..."). "</option>";
@@ -209,7 +208,8 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
 	 * @param string $baseUrl
 	 * @return void
 	 */
-  public function setEditor(string $id, string $editorName = 'editor', string $baseUrl = "/App/static/cms/") {
+  public function setEditor(string $id, string $editorName = 'editor', string $baseUrl = "/App/static/cms/"): void
+  {
     $this->editor = $id;
     $this->editorName = $editorName;
     $this->editorUrlBase = $baseUrl;
