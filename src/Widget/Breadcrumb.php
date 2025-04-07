@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 namespace Plinct\Web\Widget;
 
 class Breadcrumb
@@ -60,14 +59,14 @@ class Breadcrumb
   public function addBreadcrumbFromURL($uri = null): ?array
   {
     $uri = $uri ?? filter_input(INPUT_SERVER, 'REQUEST_URI');
-    $uri = substr($uri,-1) == '/' ? substr($uri,0,-1) : $uri;
+    $uri = str_ends_with($uri, '/') ? substr($uri,0,-1) : $uri;
     $paramsArray = explode("/", urldecode($uri));
     $i=0;
     $lastHref = "/";
     if (count($paramsArray) > 1) {
       foreach ($paramsArray as $value) {
         // elimina querys estranhas
-        if (strpos($value, "&") !== false) {
+        if (str_contains($value, "&")) {
           $value = strstr($value, "&", true);
         }
         $href = $lastHref . $value;
@@ -76,7 +75,7 @@ class Breadcrumb
         } else {
           $this->response['content'][] = ["tag" => "li", "content" => " > "];
         }
-        $text = strstr($value, "?", true) !== false ? strstr($value, "?", true) : $value;
+        $text = str_contains($value, "?") ? strstr($value, "?", true) : $value;
         $this->response['content'][] = self::addli(ucfirst($text), $i, $href, count($paramsArray) == $i + 1);
 				$this->json['itemListElement'][] = ["@type"=>"ListItem", "position"=>$i, "name"=>ucfirst($text),"item"=>$this->formatHref($href)];
         $lastHref = $i > 0 ? $href . "/" : $href;
@@ -93,27 +92,27 @@ class Breadcrumb
   private function decodeArrayBreadcrumb(array $arrayBreadcrumb): array
 	{
 		$numberOfItem = $arrayBreadcrumb['numberOfItems'] ?? isset($arrayBreadcrumb['itemListElement']) ? count($arrayBreadcrumb['itemListElement']) : count($arrayBreadcrumb);
-
 		if (isset($arrayBreadcrumb['itemListElement'])) {
 			$itemListElement = $arrayBreadcrumb['itemListElement'];
-			$inicioNotExists = $itemListElement[0]['item']['name'] !== "Início" && $itemListElement[0]['item']['name'] !== "Inicial";
-
+			$inicioNotExists = isset($itemListElement[0]['item']['name']) && $itemListElement[0]['item']['name'] !== "Início" && $itemListElement[0]['item']['name'] !== "Inicial";
       foreach ($itemListElement as $key => $value) {
-				$item = $value['item'];
-				if($key == 0 && $inicioNotExists) {
-					$this->response['content'][] = self::addli('Início',1,"/");
+				if ($key == 0 && ($inicioNotExists || !$value)) {
+					$this->response['content'][] = self::addli('Início', 1, "/");
 					$this->response['content'][] = ["tag" => "li", "content" => " > "];
-				} elseif ($key !==0) {
+				} elseif ($key !== 0) {
 					$this->response['content'][] = ["tag" => "li", "content" => " > "];
 				}
-        $this->response['content'][] = self::addli($item['name'], $value['position'], $item['@id'], $key+1==$numberOfItem);
-	      $this->json['itemListElement'][] = ["@type"=>"ListItem", "position"=>$value['position'], "name"=>$value["item"]['name'],"item"=>  $item['@id']];
+					if ($value) {
+					$item = $value['item'];
+					$this->response['content'][] = self::addli($item['name'], $value['position'], $item['@id'], $key + 1 == $numberOfItem);
+					$this->json['itemListElement'][] = ["@type" => "ListItem", "position" => $value['position'], "name" => $value["item"]['name'], "item" => $item['@id']];
+				}
       }
 		} else {
       foreach ($arrayBreadcrumb as $key => $value) {
 	      if($key === 0) $this->response['content'][] = self::addli('Início',1,"/");
         $this->response['content'][] = [ "tag" => "li", "content" => " > " ];
-        $href = substr($value['item']['id'], -1) == '/' ? substr($value['item']['id'], 0, -1) : $value['item']['id'];
+        $href = str_ends_with($value['item']['id'], '/') ? substr($value['item']['id'], 0, -1) : $value['item']['id'];
         $this->response['content'][] = self::addli($value["item"]['name'], $value['position'], $href, $key+1==$numberOfItem);
 				$this->json['itemListElement'][] = ["@type"=>"ListItem", "position"=>$value['position'], "name"=>$value["item"]['name'],"item"=> $href];
       }
@@ -159,7 +158,7 @@ class Breadcrumb
 	 */
 	private function formatHref(string $href): string
 	{
-		return substr($href,0,1) === '/' ? "https://".$_SERVER['HTTP_HOST'].$href : $href;
+		return str_starts_with($href, '/') ? "https://".$_SERVER['HTTP_HOST'].$href : $href;
 	}
 
 	/**

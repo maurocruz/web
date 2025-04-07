@@ -133,9 +133,10 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
 	 * @param array $items
 	 * @param $valueChecked
 	 * @param string|null $legend
+	 * @param array $attributes
 	 * @return $this
 	 */
-	public function fieldsetWithRadio(string $name, array $items, $valueChecked, string $legend = null): Form
+	public function fieldsetWithRadio(string $name, array $items, $valueChecked, string $legend = null, array $attributes = []): Form
 	{
 		$labels = null;
 		foreach ($items as $key => $value) {
@@ -145,8 +146,8 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
 			}
 			$labels[] = ['tag'=>'label', 'content'=> $input];//<label><input name='$name' type='radio' value='$key' checked=''> $value</label>";
 		}
-		parent::content(['tag'=>'fieldset', 'content' => [
-			$legend ? [ "tag" => "legend", "content" => $legend ] : null,
+		parent::content(['tag'=>'fieldset', 'attributes'=>$attributes, 'content' => [
+			$legend ? ['tag'=>'legend','content'=>$legend] : null,
 			$labels
 		]]);
 		return $this;
