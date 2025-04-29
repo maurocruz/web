@@ -45,6 +45,11 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
     return $this;
   }
 
+	public function getAttributes(): array
+	{
+		return $this->element['attributes'];
+	}
+
   /**
    * @param string $name
    * @param string $value
