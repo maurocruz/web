@@ -53,13 +53,13 @@ interface FormInterface
 
   /**
    * @param string $name
-   * @param array | string $value
+   * @param array | string | null $value
    * @param array $list
    * @param string|null $legend
    * @param array|null $attributes
    * @return FormInterface
    */
-  public function fieldsetWithSelect(string $name, $value, array $list, string $legend = null, array $attributes = null): FormInterface;
+  public function fieldsetWithSelect(string $name, array|string|null $value, array $list, string $legend = null, array $attributes = null): FormInterface;
 
   /**
    * @param string $name
@@ -71,18 +71,35 @@ interface FormInterface
    */
   public function fieldsetWithTextarea(string $name, string $value = null, string $legend = null, array $attributesFieldset = null, array $attributesTextarea = []): FormInterface;
 
+	/**
+	 * @param string $name
+	 * @param array $items
+	 * @param $valueChecked
+	 * @param string|null $legend
+	 * @return FormInterface
+	 */
 	public function fieldsetWithRadio(string $name, array $items, $valueChecked, string $legend = null): FormInterface;
+
+	/**
+	 * @param string $name
+	 * @param array $items
+	 * @param array $valuesChecked
+	 * @param string|null $legend
+	 * @return FormInterface
+	 */
+	public function fieldsetWithCheckbox(string $name, array $items, array $valuesChecked, string $legend = null): FormInterface;
+
   /**
    * @param string $id
    * @param string $editorName
-   * @return mixed
+   * @return void
    */
-  public function setEditor(string $id, string $editorName = 'editor');
+  public function setEditor(string $id, string $editorName = 'editor'): void;
 
-  /**
-   * @param array|null $attributes
-   * @return FormInterface
-   */
+	/**
+	 * @param array $attributes
+	 * @return FormInterface
+	 */
   public function submitButtonSend(array $attributes = []): FormInterface;
 
   /**

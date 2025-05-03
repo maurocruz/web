@@ -104,13 +104,13 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
 
 	/**
 	 * @param string $name
-	 * @param $value
+	 * @param array|string|null $value
 	 * @param array $list
 	 * @param string|null $legend
 	 * @param array|null $attributes
 	 * @return $this
 	 */
-  public function fieldsetWithSelect(string $name, $value, array $list, string $legend = null, array $attributes = null): Form {
+  public function fieldsetWithSelect(string $name, array|string|null $value, array $list, string $legend = null, array $attributes = null): Form {
     $options = null;
     if (is_array($value)) {
       $valueOption = key($value);
@@ -149,12 +149,32 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
 			if ($valueChecked === $key) {
 				$input['attributes']['checked'] = 'checked';
 			}
-			$labels[] = ['tag'=>'label', 'content'=> $input];//<label><input name='$name' type='radio' value='$key' checked=''> $value</label>";
+			$labels[] = ['tag'=>'label', 'content'=> $input];
 		}
 		parent::content(['tag'=>'fieldset', 'attributes'=>$attributes, 'content' => [
 			$legend ? ['tag'=>'legend','content'=>$legend] : null,
 			$labels
 		]]);
+		return $this;
+	}
+
+	/**
+	 * @param string $name
+	 * @param array $items
+	 * @param array $valuesChecked
+	 * @param string|null $legend
+	 * @param array $attributes
+	 * @return $this
+	 */
+	public function fieldsetWithCheckbox(string $name, array $items, array $valuesChecked, string $legend = null, array $attributes = []): Form
+	{
+		$content = "<fieldset class='$name'>";
+		$content .= $legend ? "<legend>$legend</legend>" : null;
+		foreach ($items as $key => $value) {
+			$content .= "<label><input type='checkbox' name='{$name}[]' value='$key' ".(in_array($value, $valuesChecked) ? "checked='checked'" : null)." /> "._($value)."</label>";
+		}
+		$content .= "</fieldset>";
+		parent::content($content);
 		return $this;
 	}
 
