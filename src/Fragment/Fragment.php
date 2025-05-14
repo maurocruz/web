@@ -1,7 +1,5 @@
 <?php
-
 declare(strict_types=1);
-
 namespace Plinct\Web\Fragment;
 
 use Plinct\Web\Element\Figure;
@@ -43,6 +41,10 @@ class Fragment
     return new IconsFragment();
   }
 
+	public function imageResponsive(string $url, string $alt = 'image', string $rel = null): string
+	{
+		return (new ImageResponsive())->imagemResponsive($url, $alt, $rel);
+	}
 	/**
 	 * @param array|null $attributes
 	 * @return ListElement
@@ -97,11 +99,10 @@ class Fragment
     return new Scrollup();
   }
 
-  /**
-   * @param array|null $attributes
-   * @return Table
-   */
-  public static function table(array $attributes = null) : Table
+	/**
+	 * @return Table
+	 */
+  public static function table() : Table
   {
     return new Table();
   }
