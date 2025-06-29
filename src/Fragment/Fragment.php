@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 namespace Plinct\Web\Fragment;
 
 use Plinct\Web\Element\Figure;
