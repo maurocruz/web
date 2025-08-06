@@ -1,6 +1,7 @@
 <?php
 namespace Plinct\Web\Element\Form;
 
+use Plinct\Tool\ToolBox;
 use Plinct\Web\Element\ElementInterface;
 use Plinct\Web\Fragment\Fragment;
 
@@ -119,7 +120,7 @@ class Form extends FormAbstract implements FormInterface, ElementInterface
     } elseif (is_numeric($value)) {
       $options .= "<option value='$value'>$list[$value]</option>";
     } elseif (!!$value && is_string($value)) {
-      $options .= "<option value='$value'>"._($value)."</option>";
+      $options .= "<option value='$value'>"._(ToolBox::camelCaseToSentence($value))."</option>";
     }
     $options .= "<option value=''>" ._("Select item..."). "</option>";
     foreach ($list as $keyList => $valueList) {
