@@ -40,10 +40,15 @@ class Fragment
     return new IconsFragment();
   }
 
-	public function imageResponsive(string $url, string $alt = 'image', string $rel = null): string
+	/**
+	 * @param string $url
+	 * @return ImageResponsive
+	 */
+	public function imageResponsive(string $url): ImageResponsive
 	{
-		return (new ImageResponsive())->imagemResponsive($url, $alt, $rel);
+		return new ImageResponsive($url);
 	}
+
 	/**
 	 * @param array|null $attributes
 	 * @return ListElement

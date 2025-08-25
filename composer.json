@@ -1,24 +1,25 @@
 {
-    "name": "plinct/web",
-    "description": "Web objects and widgets for Plinct app",
-    "license": "proprietary",
-    "authors": [
-        {
-            "name": "Mauro Cruz",
-            "email": "maurocruz@pirenopolis.tur.br"
-        }
-    ],
-    "require": {    
-        "php": "^7.4|^8.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Plinct\\Web\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Plinct\\Web\\Debug\\": "debug/"
-        }
+  "name": "plinct/web",
+  "description": "Web objects and widgets for Plinct app",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Mauro Cruz",
+      "email": "maurocruz@pirenopolis.tur.br"
     }
+  ],
+  "require": {
+    "php": "^7.4|^8.0",
+    "ext-imagick": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Plinct\\Web\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Plinct\\Web\\Debug\\": "debug/"
+    }
+  }
 }
