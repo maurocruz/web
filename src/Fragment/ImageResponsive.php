@@ -31,8 +31,7 @@ class ImageResponsive
 		$origin = "$schema://$host";
 
 		$gerarURL = function ($sufixo) use ($origin, $prefixPath, $baseName, $extension) {
-			$prefix = $prefixPath ? '/' . $prefixPath : '';
-			return $origin . $prefix . '/' . $baseName . $sufixo . $extension;
+			return $origin . $prefixPath . '/' . $baseName . $sufixo . $extension;
 		};
 
 		return [
