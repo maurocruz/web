@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace Plinct\Web\Element;
 
 abstract class ElementAbstract implements ElementInterface

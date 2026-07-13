@@ -1,5 +1,4 @@
 <?php
-
 namespace Plinct\Web\Debug;
 
 use ReflectionException;

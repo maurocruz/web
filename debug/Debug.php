@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace Plinct\Web\Debug;
 
 use ReflectionException;
@@ -11,7 +8,7 @@ class Debug extends Switcher implements DebugInterface
     /**
      * @throws ReflectionException
      */
-    public static function dump($var, int $maxDeep = 3)
+    public static function dump($var, int $maxDeep = 3): void
     {
         self::$maxDeep = $maxDeep;
 
@@ -28,7 +25,7 @@ class Debug extends Switcher implements DebugInterface
         echo "<pre style='font-size: 14px; background-color: #333; overflow: auto; color: #e7e7e7;'>$response</pre>";
     }
 
-    static function var_dump($var)
+    static function var_dump($var): void
     {
         echo "<pre>";
         var_dump($var);

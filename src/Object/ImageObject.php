@@ -2,7 +2,7 @@
 namespace Plinct\Web\Object;
 
 use Exception;
-use Plinct\Tool\Image\Image;
+use Plinct\Tool\Image\ImageProcessor;
 
 class ImageObject
 {
@@ -11,17 +11,13 @@ class ImageObject
 	 */
 	private ?string $source;
 	/**
-	 * @var Image
-	 */
-	private Image $image;
-	/**
 	 * @var string|mixed
 	 */
 	private string $alt;
 	/**
 	 * @var string|int|float|mixed|null
 	 */
-	private $width;
+	private mixed $width;
 	/**
 	 * @var string|mixed|null
 	 */
@@ -33,7 +29,7 @@ class ImageObject
 	/**
 	 * @var string
 	 */
-	private string $icoSize = '200';
+	private string $tinySize = '320';
 	/**
 	 * @var string
 	 */
@@ -41,11 +37,11 @@ class ImageObject
 	/**
 	 * @var string
 	 */
-	private string $mediumSize = '800';
+	private string $mediumSize = '840';
 	/**
 	 * @var string
 	 */
-	private string $largeSize = '1280';
+	private string $largeSize = '1360';
 	/**
 	 * @var array|null
 	 */
@@ -54,6 +50,10 @@ class ImageObject
 	 * @var array|null
 	 */
 	private ?array $srcset = null;
+	/**
+	 * @var string
+	 */
+	private string $src;
 	/**
 	 * @var array|mixed
 	 */
@@ -65,50 +65,76 @@ class ImageObject
   /**
    * @throws Exception
    */
+
   public function __construct($value)
   {
 		$this->source = $value['src'] ?? '';
+		$this->src = $value['src'] ?? '';
 		$this->alt = $value['alt'] ?? '';
 		$this->href = $value['href'] ?? null;
 	  $this->attributes = $value['attributes'] ?? [];
 		$this->hrefAttributes = $value['hrefAttributes'] ?? null;
-		$source = str_replace(" ","%20",$this->source);
-	  $this->image = new Image($source);
-		$this->width = isset($value['width']) && $value['width'] != '0'	? $value['width'] : (isset($value['height']) && $value['height'] != '0' ? 1 : null);
-	  $this->width = ($this->width <= 1 ? $this->largeSize * $this->width : $this->width);
-	  if (!$this->image->isValidImage()) {
-			$this->broked = true;
-		} elseif ($this->image->getExtension() !== 'svg' && $this->width && !$this->image->isRemote()) {
-      // ICO
-      $height = isset($value['height']) && $value['height'] != '0' ? $value['height'] : null;
-      $originalWidth = $this->image->getWidth();
-      $icoImage = $this->image->thumbnail($this->icoSize, $height);
-      if ($this->width > $this->icoSize && $originalWidth > $this->smallSize) {
-        $this->srcsetAttributes($this->smallSize);
-      }
-      if ($this->width > $this->smallSize && $originalWidth > $this->mediumSize) {
-        $this->srcsetAttributes($this->mediumSize);
-      }
-      if ($this->width > $this->mediumSize && $originalWidth > $this->largeSize) {
-        $this->srcsetAttributes($this->largeSize);
-      }
-      // SET ATTRIBUTES
-      $this->sizes[] = $originalWidth < $this->width ? $originalWidth.'px' : $this->width . 'px';
-			$this->srcset[] = sprintf("%s %sw", $icoImage, $originalWidth < $this->icoSize ? $originalWidth : $this->icoSize);
-    }
+
+	  $height = isset($value['height']) && $value['height'] != '0' ? $value['height'] : null;
+		if (!str_contains($this->source,'http')) {
+			$localSource = $_SERVER['DOCUMENT_ROOT'] . (str_starts_with($this->source,'/') ? $this->source : '/' . $this->source);
+		} else {
+			$localSource = $_SERVER['DOCUMENT_ROOT'] . parse_url($this->source)['path'];
+		}
+
+	  if (!file_exists($localSource)) {
+		  $headers = @get_headers($this->source, 1);
+		  if (!isset($headers[0]) && !str_contains($headers[0], '200')) {
+			  $this->broked = true;
+		  }
+		} else {
+			$image = new ImageProcessor(realpath($localSource));
+			$this->width = isset($value['width']) && $value['width'] != '0' ? $value['width'] : (isset($value['height']) && $value['height'] != '0' ? 1 : null);
+			$this->width = ($this->width <= 1 ? $image->getWidth()  * $this->width : $this->width);
+
+			if (!$image->isValidImage()) {
+				$this->broked = true;
+			} elseif ($image->getExtension() !== 'svg' && $this->width && $image->getWidth() > $this->tinySize) {
+				$pathinfo = pathinfo($localSource);
+				$tinyFilename = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '_t';
+				$smallFilename = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '_s';
+				$mediumFilename = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '_m';
+				$largFilename = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
+				// TINY WIDTH
+				$tinyPathname = !file_exists($tinyFilename . ".webp") ? $image->createNewImage($tinyFilename, $this->tinySize, $height) : $tinyFilename . ".webp";
+				$this->srcsetAttributes($tinyPathname, $this->tinySize, $this->width);
+				if (file_exists($tinyPathname)) $this->src = $tinyPathname;
+				// SMALL WIDTH
+				if ($this->width > $this->smallSize) {
+					$smallPathName = !file_exists($smallFilename. ".webp") ? $image->createNewImage($smallFilename, $this->smallSize, $height) : $smallFilename . ".webp";
+					$this->srcsetAttributes($smallPathName, $this->smallSize, $this->width);
+				}
+				// MEDIUM WIDTH
+				if ($this->width > $this->mediumSize) {
+					$mediumPathName = !file_exists($mediumFilename. ".webp") ? $image->createNewImage($mediumFilename, $this->mediumSize, $height) : $mediumFilename . ".webp";
+					$this->srcsetAttributes($mediumPathName, $this->mediumSize, $this->width);
+				}
+				// LARGE WIDTH
+				$largePathName = $image->getWidth() > $this->largeSize ? $image->createNewImage($largFilename, $image->getWidth(), $height) : $localSource;
+				$this->srcsetAttributes($largePathName, $image->getWidth(), $this->width);
+			}
+		}
   }
+
 	/**
-	 * @param $newwidth
-	 * @throws Exception
+	 * @param $srcsetLocalImage
+	 * @param $newWidth
+	 * @param $maxWidth
+	 * @return void
 	 */
-  private function srcsetAttributes($newwidth)
+  private function srcsetAttributes($srcsetLocalImage, $newWidth, $maxWidth): void
   {
-    $height = (string) ($newwidth / $this->image->getNewRatio());
-    $thumb =  $this->image->thumbnail($newwidth, $height);
-	  $slot = $this->width < $newwidth ? $this->width : $newwidth;
-	  $this->sizes[] = sprintf("(max-width: %spx) %spx", $newwidth, $slot);
-		$this->srcset[] = sprintf("%s %sw", $thumb, $newwidth);
+		$thumb = str_replace($_SERVER['DOCUMENT_ROOT'],'',$srcsetLocalImage);
+	  $slot = min($maxWidth, $newWidth);
+	  $this->sizes[] = sprintf("(max-width: %spx) %spx", $newWidth, $slot);
+		$this->srcset[] = sprintf("%s %sw", $thumb, $newWidth);
   }
+
 	/**
 	 * @return array
 	 */
@@ -116,6 +142,7 @@ class ImageObject
 	{
 		return ['tag'=>'div','attributes'=>['data-src'=>$this->source],'content'=>'<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M19 5v11.17l2 2V5c0-1.1-.9-2-2-2H5.83l2 2H19zM2.81 2.81L1.39 4.22L3 5.83V19c0 1.1.9 2 2 2h13.17l1.61 1.61l1.41-1.41L2.81 2.81zM5 19V7.83l7.07 7.07l-.82 1.1L9 13l-3 4h8.17l2 2H5z" fill="#e3e3e3"/></svg>'];
 	}
+
 	/**
 	 * @return array
 	 */
@@ -128,7 +155,7 @@ class ImageObject
 			$baseAttributes['alt'] = $this->alt;
 			if ($this->sizes) $baseAttributes['sizes'] = implode(', ', $this->sizes);
 			if ($this->srcset) $baseAttributes['srcset'] = implode(', ', $this->srcset);
-			$baseAttributes['src'] = $this->source;
+			$baseAttributes['src'] = $this->src;
 			$img = ['tag' => 'img','attributes' => $this->attributes ? array_merge($baseAttributes, $this->attributes) : $baseAttributes];
 			if($this->href) {
 				$hrefAttr = $this->hrefAttributes ? array_merge(["href" => $this->href], $this->hrefAttributes) : ["href" => $this->href];

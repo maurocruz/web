@@ -1,5 +1,4 @@
 <?php
-
 namespace Plinct\Web\Widget;
 
 class Navigation

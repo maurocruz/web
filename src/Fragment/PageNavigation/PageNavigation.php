@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace Plinct\Web\Fragment\PageNavigation;
 
 class PageNavigation extends PageNavigationAbstract

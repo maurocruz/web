@@ -1,5 +1,4 @@
 <?php
-
 namespace Plinct\Web\Object;
 
 /**
@@ -9,7 +8,7 @@ namespace Plinct\Web\Object;
  */
 class DlObject
 {
-    public function __invoke($array) 
+    public function __invoke($array): array
     {
         foreach ($array['content'] as $value) 
         {

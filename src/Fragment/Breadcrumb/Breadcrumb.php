@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace Plinct\Web\Fragment\Breadcrumb;
 
 use Plinct\Web\Render;

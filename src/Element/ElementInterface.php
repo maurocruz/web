@@ -1,5 +1,4 @@
 <?php
-
 namespace Plinct\Web\Element;
 
 interface ElementInterface

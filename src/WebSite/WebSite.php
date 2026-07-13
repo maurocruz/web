@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace Plinct\Web\WebSite;
 
 use Plinct\Web\Render;
@@ -19,12 +16,12 @@ class WebSite extends WebSiteAbstract implements WebSiteInterface
     /**
      * @param array|string[] $head
      */
-    public function head(array $head)
+    public function head(array $head): void
     {
         $this->setHead($head);
     }
 
-    public function addHead($content)
+    public function addHead($content): void
     {
         $this->head['content'][] = $content;
     }
@@ -32,7 +29,7 @@ class WebSite extends WebSiteAbstract implements WebSiteInterface
     /**
      * @param array $body
      */
-    public function body(array $body)
+    public function body(array $body): void
     {
         $this->setBody($body);
     }
@@ -40,7 +37,7 @@ class WebSite extends WebSiteAbstract implements WebSiteInterface
     /**
      *
      */
-    public function ready()
+    public function ready(): void
     {
         echo $this->run();
     }

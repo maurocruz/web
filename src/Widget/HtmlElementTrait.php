@@ -1,5 +1,4 @@
 <?php
-
 namespace Plinct\Web\Widget;
 
 use Plinct\Tool\StructuredData;

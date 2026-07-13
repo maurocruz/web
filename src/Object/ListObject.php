@@ -1,16 +1,15 @@
 <?php
-
 namespace Plinct\Web\Object;
 
 class ListObject 
 {
     
-    public function __invoke($array) 
+    public function __invoke($array): array
     {
         return self::createList($array['content']);
     }
     
-    static private function createList(array $array)
+    static private function createList(array $array): array
     {
         $content = null;
 

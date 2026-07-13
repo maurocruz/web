@@ -1,6 +1,4 @@
 <?php
-declare(strict_types=1);
-
 namespace Plinct\Web\Widget;
 
 use Plinct\Web\Element\Element;

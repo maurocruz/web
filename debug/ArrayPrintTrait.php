@@ -8,11 +8,11 @@ use ReflectionException;
 
 trait ArrayPrintTrait
 {
-    /**
-     * @param $var
-     * @return string
-     * @throws ReflectionException
-     */
+	/**
+	 * @param $var
+	 * @return string|null
+	 * @throws ReflectionException
+	 */
     protected static function printArray($var): ?string
     {
         if(Debug::$currentDeep < Debug::$maxDeep) {

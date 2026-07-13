@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace Plinct\Web\WebSite;
 
 use Plinct\Tool\Locale;
@@ -38,7 +35,7 @@ abstract class WebSiteAbstract
   /**
    * @param array|string[] $head
    */
-  protected function setHead(array $head)
+  protected function setHead(array $head): void
   {
     $this->head = $head;
   }

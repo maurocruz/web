@@ -19,15 +19,15 @@ class PlinctMap
 	/**
 	 * @var float|int
 	 */
-	private float $zoom = 12;
+	private float|int $zoom = 12;
 	/**
 	 * @var float|int
 	 */
-	private float $pitch = 0;
+	private float|int $pitch = 0;
 	/**
 	 * @var float|int
 	 */
-	private float $bearing = 0;
+	private float|int $bearing = 0;
 	/**
 	 * @var string
 	 */
@@ -98,11 +98,11 @@ class PlinctMap
 		$query['api'] = $this->api;
 		$httpBuildQuery = http_build_query($query);
 		return ['tag'=>'div','attributes'=>$this->attributes, 'content'=>[
-			['tag'=>'iframe','attributes'=>['class'=>'plinctMapWidget-iframe', 'src'=>"https://map.plinct.com.br/embed?$httpBuildQuery"]],
+			['tag'=>'iframe','attributes'=>['class'=>'plinctMapWidget-iframe', 'src'=>"https://pirenopolis.local/map/embed.html?$httpBuildQuery"]],
 			"<div class='plinctMapWidget-openIn'>"
 				."<a href='https://www.google.com/maps/search/?api=1&query=$this->lat%2C$this->lng&zoom=$this->zoom' target='_blank'>Google Maps</a>"
 				."<a href='https://ul.waze.com/ul?ll=$this->lat%2C$this->lng&navigate=yes&z=$this->zoom' target='_blank'>Waze</a>"
-			."<a href='https://map.plinct.com.br?$httpBuildQuery' target='_blank'>Plinct Maps</a>"
+			."<a href='https://pirenopolis.local/map?$httpBuildQuery' target='_blank'>Plinct Maps</a>"
 			."</div>"
 		]];
 	}

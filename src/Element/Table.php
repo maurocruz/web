@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace Plinct\Web\Element;
 
 class Table
@@ -48,7 +45,7 @@ class Table
      * @param string $caption
      * @return void
      */
-    public function caption(string $caption)
+    public function caption(string $caption): void
     {
         $this->caption['content'] = $caption;
     }
@@ -116,7 +113,7 @@ class Table
     /**
      * @return void
      */
-    public final function closeRow()
+    public final function closeRow(): void
     {
         $this->body['content'][] = $this->trBody;
         $this->trBody = null;

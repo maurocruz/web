@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace Plinct\Web\Fragment\PageNavigation;
 
 use Plinct\Web\Fragment\Fragment;
@@ -52,7 +49,7 @@ class PageNavigationAbstract
 	/**
 	 * @return void
 	 */
-	protected function countPages()
+	protected function countPages(): void
 	{
 		if ($this->numberOfItems < $this->limit) {
 			$text = sprintf("%s %s %s",_("Showing"), $this->numberOfItems, _('items'));
@@ -62,7 +59,7 @@ class PageNavigationAbstract
 		$this->container['content'][] = "<div class='pageNavigation-countPages'>$text</div>";
 	}
 
-	protected function selectLimit(array $values = [40,80,120,160,200])
+	protected function selectLimit(array $values = [40,80,120,160,200]): void
 	{
 		if ($this->numberOfItems > $this->limit) {
 			$options = "<option value='$this->limit'>$this->limit</option>";
