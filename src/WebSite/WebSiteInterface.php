@@ -3,28 +3,28 @@ namespace Plinct\Web\WebSite;
 
 interface WebSiteInterface
 {
-    /**
-     * @param array $head
-     * @return mixed
-     */
-    public function head(array $head): mixed;
+	/**
+	 * @param array $head
+	 * @return void
+	 */
+    public function head(array $head): void;
 
-    /**
-     * @param $content
-     * @return mixed
-     */
-    public function addHead($content): mixed;
+	/**
+	 * @param $content
+	 * @return void
+	 */
+    public function addHead($content): void;
 
-    /**
-     * @param array $body
-     * @return mixed
-     */
-    public function body(array $body): mixed;
+	/**
+	 * @param array $body
+	 * @return void
+	 */
+    public function body(array $body): void;
 
-    /**
-     * @return mixed
-     */
-    public function ready(): mixed;
+	/**
+	 * @return void
+	 */
+    public function ready(): void;
 
     /**
      * @return string
