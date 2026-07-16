@@ -74,7 +74,6 @@ class ImageObject
 		$this->href = $value['href'] ?? null;
 	  $this->attributes = $value['attributes'] ?? [];
 		$this->hrefAttributes = $value['hrefAttributes'] ?? null;
-
 	  $height = isset($value['height']) && $value['height'] != '0' ? $value['height'] : null;
 		if (!str_contains($this->source,'http')) {
 			$localSource = $_SERVER['DOCUMENT_ROOT'] . (str_starts_with($this->source,'/') ? $this->source : '/' . $this->source);
@@ -103,7 +102,9 @@ class ImageObject
 				// TINY WIDTH
 				$tinyPathname = !file_exists($tinyFilename . ".webp") ? $image->createNewImage($tinyFilename, $this->tinySize, $height) : $tinyFilename . ".webp";
 				$this->srcsetAttributes($tinyPathname, $this->tinySize, $this->width);
-				if (file_exists($tinyPathname)) $this->src = $tinyPathname;
+				if (file_exists($tinyPathname)) {
+					$this->src = str_replace($_SERVER['DOCUMENT_ROOT'], '', $tinyPathname);
+				}
 				// SMALL WIDTH
 				if ($this->width > $this->smallSize) {
 					$smallPathName = !file_exists($smallFilename. ".webp") ? $image->createNewImage($smallFilename, $this->smallSize, $height) : $smallFilename . ".webp";
